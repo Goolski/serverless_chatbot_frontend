@@ -51,7 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => ChatScreen(
-                token: auth.accessToken!,
+                authToken: auth.accessToken!,
+                user_id: '${result.id}',
               ),
             ),
           );

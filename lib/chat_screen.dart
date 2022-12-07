@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/backend.dart';
+import 'package:serverless_chatbot/backend_record.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String token;
+  final String authToken;
+  final String user_id;
   const ChatScreen({
-    required this.token,
+    required this.authToken,
+    required this.user_id,
     super.key,
   });
 
@@ -23,13 +26,45 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Chat(
-          messages: _messages,
-          onSendPressed: _handleSendPressed,
-          user: _user,
+        child: Column(
+          children: [
+            Flexible(
+              child: Chat(
+                messages: _messages,
+                onSendPressed: _handleSendPressed,
+                user: _user,
+              ),
+            ),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: startRecording,
+                  child: Text('Start recording'),
+                ),
+                TextButton(
+                  onPressed: stopRecording,
+                  child: Text('Stop Recording'),
+                ),
+                TextButton(
+                  onPressed: sendRecording,
+                  child: Text('Send Recording'),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );
+  }
+
+  void sendRecording() async {
+    final encodedAudio = (await getEncodedRecording());
+    final response = askBotWithAudio(
+      encodedAudio: encodedAudio!,
+      authToken: widget.authToken,
+      userId: widget.user_id,
+    );
+    print(await response);
   }
 
   void _addMessage(types.Message message) {
@@ -52,10 +87,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<types.TextMessage> _getBotMessage(types.PartialText message) async {
     final bot = types.User(id: 'Bot', firstName: 'Chatbot');
-    print(widget.token);
+    print(widget.authToken);
     final result = await askBot(
       message: message.text,
-      authToken: widget.token,
+      authToken: widget.authToken,
+      userId: widget.user_id,
     );
     return types.TextMessage(
       author: bot,
