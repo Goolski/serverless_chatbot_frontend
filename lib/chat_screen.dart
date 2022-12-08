@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/backend.dart';
 import 'package:serverless_chatbot/backend_record.dart';
+import 'package:serverless_chatbot/chat_input_widget/chat_input_cubit.dart';
+import 'package:serverless_chatbot/chat_input_widget/chat_input_widget.dart';
 import 'package:uuid/uuid.dart';
+
+import 'chat_input_widget/chat_input_state.dart';
 
 class ChatScreen extends StatefulWidget {
   final String authToken;
@@ -31,26 +36,19 @@ class _ChatScreenState extends State<ChatScreen> {
             Flexible(
               child: Chat(
                 messages: _messages,
-                onSendPressed: _handleSendPressed,
+                onSendPressed: (_) {},
                 user: _user,
+                customBottomWidget: BlocProvider(
+                  create: (_) => ChatInputCubit(ChatInputState.initial()),
+                  child: ChatInputWidget(
+                    onSendPressed: _handleSendPressed,
+                    onRecordPressed: startRecording,
+                    onCancelPressed: stopRecording,
+                    onSendRecordPressed: sendRecording,
+                  ),
+                ),
               ),
             ),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: startRecording,
-                  child: Text('Start recording'),
-                ),
-                TextButton(
-                  onPressed: stopRecording,
-                  child: Text('Stop Recording'),
-                ),
-                TextButton(
-                  onPressed: sendRecording,
-                  child: Text('Send Recording'),
-                )
-              ],
-            )
           ],
         ),
       ),
@@ -73,23 +71,24 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  void _handleSendPressed(types.PartialText message) {
+  void _handleSendPressed(String message) {
+    final partialMessage = types.PartialText(text: message);
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: Uuid().v4(),
-      text: message.text,
+      text: partialMessage.text,
     );
 
     _addMessage(textMessage);
     _getBotMessage(message).then((value) => _addMessage(value));
   }
 
-  Future<types.TextMessage> _getBotMessage(types.PartialText message) async {
+  Future<types.TextMessage> _getBotMessage(String message) async {
     final bot = types.User(id: 'Bot', firstName: 'Chatbot');
     print(widget.authToken);
     final result = await askBot(
-      message: message.text,
+      message: message,
       authToken: widget.authToken,
       userId: widget.user_id,
     );

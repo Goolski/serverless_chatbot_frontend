@@ -28,6 +28,7 @@ Future<String?> stopRecording() async {
 Future<String?> getEncodedRecording() async {
   final recording = File('${await _localPath}/myRecording.pcm');
   final converted = base64.encode(await recording.readAsBytes());
+  recording.delete();
   print(converted);
   return converted;
 }
