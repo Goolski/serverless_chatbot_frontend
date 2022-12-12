@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:serverless_chatbot/login_cubit/login_cubit.dart';
+import 'package:serverless_chatbot/login_cubit/login_state.dart';
 
 import 'login_screen.dart';
 
@@ -12,7 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: BlocProvider(
+        create: (context) => LoginCubit(LoginState.initialState()),
+        child: LoginScreen(),
+      ),
     );
   }
 }

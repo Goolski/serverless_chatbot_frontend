@@ -9,13 +9,14 @@ import 'package:serverless_chatbot/chat_input_widget/chat_input_widget.dart';
 import 'package:uuid/uuid.dart';
 
 import 'chat_input_widget/chat_input_state.dart';
+import 'login_cubit/login_cubit.dart';
 
 class ChatScreen extends StatefulWidget {
   final String authToken;
-  final String user_id;
+  final String userId;
   const ChatScreen({
     required this.authToken,
-    required this.user_id,
+    required this.userId,
     super.key,
   });
 
@@ -30,6 +31,19 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              context
+                  .read<LoginCubit>()
+                  .handleSignOut()
+                  .then((value) => Navigator.pop(context));
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -60,7 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final response = askBotWithAudio(
       encodedAudio: encodedAudio!,
       authToken: widget.authToken,
-      userId: widget.user_id,
+      userId: widget.userId,
     );
     print(await response);
   }
@@ -90,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final result = await askBot(
       message: message,
       authToken: widget.authToken,
-      userId: widget.user_id,
+      userId: widget.userId,
     );
     return types.TextMessage(
       author: bot,

@@ -1,73 +1,123 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 import 'chat_screen.dart';
+import 'login_cubit/login_cubit.dart';
+import 'login_cubit/login_state.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+const iconSize = 100.0;
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
 
-class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'https://www.googleapis.com/auth/calendar',
+      'https://www.googleapis.com/auth/tasks',
     ],
   );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Align(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: _handleSignIn,
-              child: const Text('Sign In with Google'),
+    return BlocConsumer<LoginCubit, LoginState>(
+      listener: (context, state) => state.whenOrNull(
+        signedIn: (authToken, userId) => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => LoginCubit(LoginState.initialState()),
+              child: ChatScreen(
+                authToken: authToken,
+                userId: userId,
+              ),
             ),
-            TextButton(
-              onPressed: _handleSignOut,
-              child: const Text('Sign Out'),
-            ),
-          ],
+          ),
         ),
+      ),
+      builder: (context, state) => state.maybeWhen(
+        notSignedIn: (signInFunction) => Scaffold(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(child: Logo()),
+              SizedBox(
+                height: 40,
+              ),
+              Container(
+                alignment: Alignment.center,
+                height: 40,
+                child: SignInButton(
+                  Buttons.Google,
+                  onPressed: () => _handleSignIn(context),
+                ),
+              ),
+            ],
+          ),
+        ),
+        initialState: () => CircularProgressIndicator(),
+        orElse: () => Scaffold(body: SizedBox.shrink()),
       ),
     );
   }
 
-  Future<void> _handleSignIn() async {
+  Future<void> _handleSignIn(BuildContext context) async {
     try {
       final result = await _googleSignIn.signIn();
-      if (result != null) {
-        final auth = (await _googleSignIn.currentUser?.authentication);
-        print(auth?.accessToken);
-        print(auth?.idToken);
-        if (auth != null && auth.accessToken != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatScreen(
-                authToken: auth.accessToken!,
-                user_id: '${result.id}',
-              ),
-            ),
-          );
-        }
-      }
+      context.read<LoginCubit>().handleSignIn(result);
     } catch (error) {
       print(error);
     }
   }
+}
 
-  Future<void> _handleSignOut() async {
-    try {
-      await _googleSignIn.signOut();
-    } catch (error) {
-      print(error);
-    }
+class Logo extends StatelessWidget {
+  const Logo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: iconSize,
+            width: iconSize,
+            child: Icon(
+              Icons.developer_board_off,
+              size: iconSize * 0.8,
+            ),
+          ),
+          Container(
+            height: iconSize * 0.8,
+            width: iconSize * 0.8,
+            child: Stack(
+              children: [
+                Positioned(
+                  right: 0,
+                  child: Icon(
+                    Icons.chat,
+                    size: iconSize * 0.3,
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Icon(
+                    Icons.smart_toy,
+                    size: iconSize * 0.65,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
