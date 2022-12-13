@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: BlocProvider(
-        create: (context) => LoginCubit(LoginState.initialState()),
+        create: (context) => LoginCubit(),
         child: LoginScreen(),
       ),
     );

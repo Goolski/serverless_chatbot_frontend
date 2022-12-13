@@ -21,7 +21,7 @@ void startRecording() async {
   }
 }
 
-Future<String?> stopRecording() async {
+Future<void> stopRecording() async {
   await record.stop();
 }
 

@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import 'chat_input_widget/chat_input_state.dart';
 import 'login_cubit/login_cubit.dart';
+import 'login_cubit/login_state.dart';
 
 class ChatScreen extends StatefulWidget {
   final String authToken;
@@ -33,14 +34,16 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              context
-                  .read<LoginCubit>()
-                  .handleSignOut()
-                  .then((value) => Navigator.pop(context));
-            },
-            icon: Icon(Icons.logout),
+          BlocBuilder<LoginCubit, LoginState>(
+            builder: (context, state) => IconButton(
+              onPressed: () {
+                context
+                    .read<LoginCubit>()
+                    .handleSignOut()
+                    .then((value) => Navigator.pop(context));
+              },
+              icon: Icon(Icons.logout),
+            ),
           ),
         ],
       ),
@@ -52,14 +55,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 messages: _messages,
                 onSendPressed: (_) {},
                 user: _user,
-                customBottomWidget: BlocProvider(
-                  create: (_) => ChatInputCubit(ChatInputState.initial()),
-                  child: ChatInputWidget(
-                    onSendPressed: _handleSendPressed,
-                    onRecordPressed: startRecording,
-                    onCancelPressed: stopRecording,
-                    onSendRecordPressed: sendRecording,
-                  ),
+                customBottomWidget: ChatInputWidget(
+                  onSendPressed: _handleSendPressed,
+                  onRecordPressed: startRecording,
+                  onCancelPressed: stopRecording,
+                  onSendRecordPressed: sendRecording,
                 ),
               ),
             ),

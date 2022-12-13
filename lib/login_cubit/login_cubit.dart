@@ -5,7 +5,7 @@ import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   late final GoogleSignIn _googleSignIn;
-  LoginCubit(super.initialState) {
+  LoginCubit() : super(const LoginState.initialState()) {
     _googleSignIn = GoogleSignIn(
       scopes: [
         'https://www.googleapis.com/auth/calendar',

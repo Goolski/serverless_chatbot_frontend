@@ -24,15 +24,11 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginState>(
       listener: (context, state) => state.whenOrNull(
-        signedIn: (authToken, userId) => Navigator.push(
-          context,
+        signedIn: (authToken, userId) => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => LoginCubit(LoginState.initialState()),
-              child: ChatScreen(
-                authToken: authToken,
-                userId: userId,
-              ),
+            builder: (context) => ChatScreen(
+              authToken: authToken,
+              userId: userId,
             ),
           ),
         ),
