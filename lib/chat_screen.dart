@@ -55,11 +55,14 @@ class _ChatScreenState extends State<ChatScreen> {
                 messages: _messages,
                 onSendPressed: (_) {},
                 user: _user,
-                customBottomWidget: ChatInputWidget(
-                  onSendPressed: _handleSendPressed,
-                  onRecordPressed: startRecording,
-                  onCancelPressed: stopRecording,
-                  onSendRecordPressed: sendRecording,
+                customBottomWidget: BlocProvider(
+                  create: (context) => ChatInputCubit(),
+                  child: ChatInputWidget(
+                    onSendPressed: _handleSendPressed,
+                    onRecordPressed: startRecording,
+                    onCancelPressed: stopRecording,
+                    onSendRecordPressed: sendRecording,
+                  ),
                 ),
               ),
             ),

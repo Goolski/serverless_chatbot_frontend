@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'chat_input_state.dart';
 
 class ChatInputCubit extends Cubit<ChatInputState> {
-  ChatInputCubit(super.initialState);
+  ChatInputCubit() : super(ChatInputState.initial());
 
   void updateTextInput({required String input}) {
     emit(ChatInputState.typing(text: input));
