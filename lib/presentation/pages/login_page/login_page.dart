@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_signin_button/button_view.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:serverless_chatbot/chat_input_widget/chat_input_cubit.dart';
 
-import 'chat_screen.dart';
-import 'login_cubit/login_cubit.dart';
-import 'login_cubit/login_state.dart';
+import '../../bloc/login/login_cubit.dart';
+import '../../bloc/login/login_state.dart';
 
 const iconSize = 100.0;
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
+  static Route<void> route() {
+    return MaterialPageRoute(builder: (_) => const LoginPage());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginCubit, LoginState>(
-      listener: (context, state) => state.whenOrNull(
-        signedIn: (authToken, userId) => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ChatScreen(
-              authToken: authToken,
-              userId: userId,
-            ),
-          ),
-        ),
-      ),
+    return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) => state.maybeWhen(
         notSignedIn: (signInFunction) => Scaffold(
           body: Column(
@@ -41,29 +31,15 @@ class LoginScreen extends StatelessWidget {
                 height: 40,
                 child: SignInButton(
                   Buttons.Google,
-                  onPressed: () => _handleSignIn(
-                    context: context,
-                    signInFunction: signInFunction,
-                  ),
+                  onPressed: () => context.read<LoginCubit>().handleSignIn,
                 ),
               ),
             ],
           ),
         ),
-        initialState: () => CircularProgressIndicator(),
         orElse: () => Scaffold(body: SizedBox.shrink()),
       ),
     );
-  }
-
-  Future<void> _handleSignIn(
-      {required BuildContext context, required Function signInFunction}) async {
-    try {
-      final result = await signInFunction();
-      context.read<LoginCubit>().handleSignIn(result);
-    } catch (error) {
-      print(error);
-    }
   }
 }
 

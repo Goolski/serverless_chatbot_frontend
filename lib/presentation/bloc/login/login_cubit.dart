@@ -20,8 +20,9 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> handleSignIn(GoogleSignInAccount? googleSignInAccount) async {
+  Future<void> handleSignIn() async {
     try {
+      final googleSignInAccount = await _googleSignIn.signIn();
       if (googleSignInAccount != null) {
         getTokens(googleSignInAccount);
       }

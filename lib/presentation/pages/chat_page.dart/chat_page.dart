@@ -2,51 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:serverless_chatbot/backend.dart';
-import 'package:serverless_chatbot/backend_record.dart';
-import 'package:serverless_chatbot/chat_input_widget/chat_input_cubit.dart';
-import 'package:serverless_chatbot/chat_input_widget/chat_input_widget.dart';
 import 'package:uuid/uuid.dart';
 
-import 'chat_input_widget/chat_input_state.dart';
-import 'login_cubit/login_cubit.dart';
-import 'login_cubit/login_state.dart';
+import '../../../backend/chatbot_backend.dart';
+import '../../widgets/chat_input_widget/chat_input_cubit.dart';
+import '../../widgets/chat_input_widget/chat_input_widget.dart';
 
-class ChatScreen extends StatefulWidget {
-  final String authToken;
-  final String userId;
-  const ChatScreen({
-    required this.authToken,
-    required this.userId,
+class ChatPage extends StatefulWidget {
+  const ChatPage({
     super.key,
   });
 
+  static Route<void> route() {
+    return MaterialPageRoute(builder: (_) => const ChatPage());
+  }
+
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatPageState extends State<ChatPage> {
   final List<types.Message> _messages = [];
   final _user = const types.User(id: 'ServelessChatbotUser');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          BlocBuilder<LoginCubit, LoginState>(
-            builder: (context, state) => IconButton(
-              onPressed: () {
-                context
-                    .read<LoginCubit>()
-                    .handleSignOut()
-                    .then((value) => Navigator.pop(context));
-              },
-              icon: Icon(Icons.logout),
-            ),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -72,21 +53,11 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void sendRecording() async {
-    final encodedAudio = (await getEncodedRecording());
-    final response = askBotWithAudio(
-      encodedAudio: encodedAudio!,
-      authToken: widget.authToken,
-      userId: widget.userId,
-    );
-    print(await response);
-  }
+  void sendRecording() async {}
 
-  void _addMessage(types.Message message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
+  void startRecording() async {}
+
+  void stopRecording() async {}
 
   void _handleSendPressed(String message) {
     final partialMessage = types.PartialText(text: message);
@@ -101,10 +72,16 @@ class _ChatScreenState extends State<ChatScreen> {
     _getBotMessage(message).then((value) => _addMessage(value));
   }
 
+  void _addMessage(types.Message message) {
+    setState(() {
+      _messages.insert(0, message);
+    });
+  }
+
   Future<types.TextMessage> _getBotMessage(String message) async {
     final bot = types.User(id: 'Bot', firstName: 'Chatbot');
     print(widget.authToken);
-    final result = await askBot(
+    final result = await sendRequest(
       message: message,
       authToken: widget.authToken,
       userId: widget.userId,
