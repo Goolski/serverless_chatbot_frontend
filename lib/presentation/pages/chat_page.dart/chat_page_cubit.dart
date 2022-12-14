@@ -10,7 +10,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
   ChatPageCubit() : super(ChatPageState.initial());
 
   Future<void> onSendRecording() async {
-    final encodedAudio = (await getEncodedRecording());
+    final encodedAudio = (await getBase64Recording());
     if (encodedAudio != null) {
       sendMessage(message: encodedAudio, contentType: RequestContentType.audio);
     }
