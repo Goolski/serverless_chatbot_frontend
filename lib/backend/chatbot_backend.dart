@@ -15,6 +15,9 @@ class ChatbotBackend {
   final ChatbotResponseCreator chatbotResponseCreator =
       ChatbotResponseCreator();
 
+  Stream<Map<String, Object>> get responseStream =>
+      chatbotResponseCreator.stream;
+
   void sendRequest({
     required String message,
     required String authToken,

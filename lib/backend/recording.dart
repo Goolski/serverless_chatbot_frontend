@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
-class RecordRepository {
+class Recording {
   final record = Record();
 
   void startRecording() async {
