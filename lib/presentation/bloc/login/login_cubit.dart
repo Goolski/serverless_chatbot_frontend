@@ -1,56 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
+import 'package:serverless_chatbot/backend/google_auth_repository.dart';
 
 import 'login_state.dart';
 
+@injectable
 class LoginCubit extends Cubit<LoginState> {
-  late final GoogleSignIn _googleSignIn;
-  LoginCubit() : super(const LoginState.initialState()) {
-    _googleSignIn = GoogleSignIn(
-      scopes: [
-        'https://www.googleapis.com/auth/calendar',
-        'https://www.googleapis.com/auth/tasks',
-      ],
-    );
-    if (_googleSignIn.currentUser != null) {
-      print(_googleSignIn.currentUser!);
-      getTokens(_googleSignIn.currentUser!);
+  final GoogleAuthRepository _googleAuthRepository;
+
+  LoginCubit(this._googleAuthRepository)
+      : super(
+          const LoginState.initialState(),
+        ) {
+    checkIfSignedIn();
+  }
+
+  void checkIfSignedIn() async {
+    if (await _googleAuthRepository.isSignedIn) {
+      emit(const LoginState.signedIn());
     } else {
-      emit(LoginState.notSignedIn(signInFunction: _googleSignIn.signIn));
+      emit(const LoginState.notSignedIn());
     }
   }
 
   Future<void> handleSignIn() async {
-    try {
-      final googleSignInAccount = await _googleSignIn.signIn();
-      if (googleSignInAccount != null) {
-        getTokens(googleSignInAccount);
-      }
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future<void> getTokens(GoogleSignInAccount googleSignInAccount) async {
-    try {
-      final authToken =
-          (await (await googleSignInAccount.authentication).accessToken);
-      final userId = googleSignInAccount.id;
-      if (authToken != null) {
-        emit(
-          LoginState.signedIn(
-            authToken: authToken,
-            userId: userId,
-          ),
-        );
-      }
-    } catch (error) {
-      print(error);
-    }
+    await _googleAuthRepository.signIn();
+    checkIfSignedIn();
   }
 
   Future<void> handleSignOut() async {
-    await _googleSignIn.signOut();
-    emit(LoginState.notSignedIn(signInFunction: _googleSignIn.signIn));
+    await _googleAuthRepository.signOut();
+    checkIfSignedIn();
   }
 }

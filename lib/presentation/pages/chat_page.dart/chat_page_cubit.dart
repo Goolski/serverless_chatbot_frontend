@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:serverless_chatbot/backend/chatbot_backend.dart';
 import 'package:serverless_chatbot/backend/google_auth_repository.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as chatTypes;
@@ -9,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../../../backend/recording.dart';
 import 'chat_page_state.dart';
 
+@injectable
 class ChatPageCubit extends Cubit<ChatPageState> {
   final Recording _recording;
   final GoogleAuthRepository _googleAuthRepository;

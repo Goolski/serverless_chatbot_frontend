@@ -2,9 +2,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
+@injectable
 class Recording {
   final record = Record();
 

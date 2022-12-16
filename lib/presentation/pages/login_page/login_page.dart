@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) => state.maybeWhen(
-        notSignedIn: (signInFunction) => Scaffold(
+        notSignedIn: () => Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

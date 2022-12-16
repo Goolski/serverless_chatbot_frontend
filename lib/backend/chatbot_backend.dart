@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart';
 
 const URL = '3p4mjoachc.execute-api.eu-west-2.amazonaws.com';
 
@@ -11,6 +12,7 @@ enum RequestContentType {
   audio,
 }
 
+@injectable
 class ChatbotBackend {
   final ChatbotResponseCreator chatbotResponseCreator =
       ChatbotResponseCreator();

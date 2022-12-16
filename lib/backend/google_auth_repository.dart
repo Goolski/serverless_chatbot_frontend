@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class GoogleAuthRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -16,10 +18,7 @@ class GoogleAuthRepository {
   Future<bool> get isSignedIn => _googleSignIn.isSignedIn();
   Stream<GoogleUser> get userStream => _streamController.stream;
 
-  void get signInFunction => signIn;
-  void get signOutFunction => signOut;
-
-  void signIn() {
+  Future<void> signIn() async {
     final result = _googleSignIn.signIn();
     result.then(
       (value) async {
@@ -40,7 +39,7 @@ class GoogleAuthRepository {
     );
   }
 
-  void signOut() {
+  Future<void> signOut() async {
     _googleSignIn.signOut();
   }
 }

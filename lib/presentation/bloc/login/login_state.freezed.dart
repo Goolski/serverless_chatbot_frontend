@@ -19,22 +19,22 @@ mixin _$LoginState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
-    required TResult Function(Function signInFunction) notSignedIn,
-    required TResult Function(String authToken, String userId) signedIn,
+    required TResult Function() notSignedIn,
+    required TResult Function() signedIn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
-    TResult? Function(Function signInFunction)? notSignedIn,
-    TResult? Function(String authToken, String userId)? signedIn,
+    TResult? Function()? notSignedIn,
+    TResult? Function()? signedIn,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
-    TResult Function(Function signInFunction)? notSignedIn,
-    TResult Function(String authToken, String userId)? signedIn,
+    TResult Function()? notSignedIn,
+    TResult Function()? signedIn,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -117,8 +117,8 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
-    required TResult Function(Function signInFunction) notSignedIn,
-    required TResult Function(String authToken, String userId) signedIn,
+    required TResult Function() notSignedIn,
+    required TResult Function() signedIn,
   }) {
     return initialState();
   }
@@ -127,8 +127,8 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
-    TResult? Function(Function signInFunction)? notSignedIn,
-    TResult? Function(String authToken, String userId)? signedIn,
+    TResult? Function()? notSignedIn,
+    TResult? Function()? signedIn,
   }) {
     return initialState?.call();
   }
@@ -137,8 +137,8 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
-    TResult Function(Function signInFunction)? notSignedIn,
-    TResult Function(String authToken, String userId)? signedIn,
+    TResult Function()? notSignedIn,
+    TResult Function()? signedIn,
     required TResult orElse(),
   }) {
     if (initialState != null) {
@@ -191,8 +191,6 @@ abstract class _$$NotSignedInCopyWith<$Res> {
   factory _$$NotSignedInCopyWith(
           _$NotSignedIn value, $Res Function(_$NotSignedIn) then) =
       __$$NotSignedInCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Function signInFunction});
 }
 
 /// @nodoc
@@ -202,82 +200,57 @@ class __$$NotSignedInCopyWithImpl<$Res>
   __$$NotSignedInCopyWithImpl(
       _$NotSignedIn _value, $Res Function(_$NotSignedIn) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? signInFunction = null,
-  }) {
-    return _then(_$NotSignedIn(
-      signInFunction: null == signInFunction
-          ? _value.signInFunction
-          : signInFunction // ignore: cast_nullable_to_non_nullable
-              as Function,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$NotSignedIn implements NotSignedIn {
-  const _$NotSignedIn({required this.signInFunction});
-
-  @override
-  final Function signInFunction;
+  const _$NotSignedIn();
 
   @override
   String toString() {
-    return 'LoginState.notSignedIn(signInFunction: $signInFunction)';
+    return 'LoginState.notSignedIn()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NotSignedIn &&
-            (identical(other.signInFunction, signInFunction) ||
-                other.signInFunction == signInFunction));
+        (other.runtimeType == runtimeType && other is _$NotSignedIn);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, signInFunction);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NotSignedInCopyWith<_$NotSignedIn> get copyWith =>
-      __$$NotSignedInCopyWithImpl<_$NotSignedIn>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
-    required TResult Function(Function signInFunction) notSignedIn,
-    required TResult Function(String authToken, String userId) signedIn,
+    required TResult Function() notSignedIn,
+    required TResult Function() signedIn,
   }) {
-    return notSignedIn(signInFunction);
+    return notSignedIn();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
-    TResult? Function(Function signInFunction)? notSignedIn,
-    TResult? Function(String authToken, String userId)? signedIn,
+    TResult? Function()? notSignedIn,
+    TResult? Function()? signedIn,
   }) {
-    return notSignedIn?.call(signInFunction);
+    return notSignedIn?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
-    TResult Function(Function signInFunction)? notSignedIn,
-    TResult Function(String authToken, String userId)? signedIn,
+    TResult Function()? notSignedIn,
+    TResult Function()? signedIn,
     required TResult orElse(),
   }) {
     if (notSignedIn != null) {
-      return notSignedIn(signInFunction);
+      return notSignedIn();
     }
     return orElse();
   }
@@ -318,13 +291,7 @@ class _$NotSignedIn implements NotSignedIn {
 }
 
 abstract class NotSignedIn implements LoginState {
-  const factory NotSignedIn({required final Function signInFunction}) =
-      _$NotSignedIn;
-
-  Function get signInFunction;
-  @JsonKey(ignore: true)
-  _$$NotSignedInCopyWith<_$NotSignedIn> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory NotSignedIn() = _$NotSignedIn;
 }
 
 /// @nodoc
@@ -332,8 +299,6 @@ abstract class _$$SignedInCopyWith<$Res> {
   factory _$$SignedInCopyWith(
           _$SignedIn value, $Res Function(_$SignedIn) then) =
       __$$SignedInCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String authToken, String userId});
 }
 
 /// @nodoc
@@ -342,90 +307,57 @@ class __$$SignedInCopyWithImpl<$Res>
     implements _$$SignedInCopyWith<$Res> {
   __$$SignedInCopyWithImpl(_$SignedIn _value, $Res Function(_$SignedIn) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? authToken = null,
-    Object? userId = null,
-  }) {
-    return _then(_$SignedIn(
-      authToken: null == authToken
-          ? _value.authToken
-          : authToken // ignore: cast_nullable_to_non_nullable
-              as String,
-      userId: null == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$SignedIn implements SignedIn {
-  const _$SignedIn({required this.authToken, required this.userId});
-
-  @override
-  final String authToken;
-  @override
-  final String userId;
+  const _$SignedIn();
 
   @override
   String toString() {
-    return 'LoginState.signedIn(authToken: $authToken, userId: $userId)';
+    return 'LoginState.signedIn()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SignedIn &&
-            (identical(other.authToken, authToken) ||
-                other.authToken == authToken) &&
-            (identical(other.userId, userId) || other.userId == userId));
+        (other.runtimeType == runtimeType && other is _$SignedIn);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, authToken, userId);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SignedInCopyWith<_$SignedIn> get copyWith =>
-      __$$SignedInCopyWithImpl<_$SignedIn>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
-    required TResult Function(Function signInFunction) notSignedIn,
-    required TResult Function(String authToken, String userId) signedIn,
+    required TResult Function() notSignedIn,
+    required TResult Function() signedIn,
   }) {
-    return signedIn(authToken, userId);
+    return signedIn();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
-    TResult? Function(Function signInFunction)? notSignedIn,
-    TResult? Function(String authToken, String userId)? signedIn,
+    TResult? Function()? notSignedIn,
+    TResult? Function()? signedIn,
   }) {
-    return signedIn?.call(authToken, userId);
+    return signedIn?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
-    TResult Function(Function signInFunction)? notSignedIn,
-    TResult Function(String authToken, String userId)? signedIn,
+    TResult Function()? notSignedIn,
+    TResult Function()? signedIn,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
-      return signedIn(authToken, userId);
+      return signedIn();
     }
     return orElse();
   }
@@ -466,13 +398,5 @@ class _$SignedIn implements SignedIn {
 }
 
 abstract class SignedIn implements LoginState {
-  const factory SignedIn(
-      {required final String authToken,
-      required final String userId}) = _$SignedIn;
-
-  String get authToken;
-  String get userId;
-  @JsonKey(ignore: true)
-  _$$SignedInCopyWith<_$SignedIn> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory SignedIn() = _$SignedIn;
 }

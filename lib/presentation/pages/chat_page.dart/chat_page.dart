@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 
+import '../../../core/injection.dart';
 import '../../widgets/chat_input_widget/chat_input_cubit.dart';
 import '../../widgets/chat_input_widget/chat_input_widget.dart';
 import 'chat_page_state.dart';
@@ -13,7 +14,9 @@ class ChatPage extends StatelessWidget {
   });
 
   static Route<void> route() {
-    return MaterialPageRoute(builder: (_) => const ChatPage());
+    return MaterialPageRoute(
+        builder: (_) => BlocProvider(
+            create: (_) => getIt<ChatPageCubit>(), child: const ChatPage()));
   }
 
   @override
