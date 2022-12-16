@@ -4,6 +4,7 @@ import 'package:serverless_chatbot/backend/google_auth_repository.dart';
 import 'package:serverless_chatbot/core/injection.dart';
 import 'package:serverless_chatbot/presentation/bloc/login/login_cubit.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page.dart';
+import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 
 import 'presentation/bloc/login/login_state.dart';
 import 'presentation/pages/loading_page/loading_page.dart';
@@ -32,41 +33,20 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) {
-          state.maybeWhen(
-            signedIn: () => Navigator.of(context).pushAndRemoveUntil(
-              ChatPage.route(),
-              (route) => false,
+      home: BlocBuilder<LoginCubit, LoginState>(
+        builder: (context, state) {
+          print(state);
+          return state.maybeWhen(
+            signedIn: () => BlocProvider(
+              create: (_) => getIt<ChatPageCubit>(),
+              child: const ChatPage(),
             ),
-            notSignedIn: () => Navigator.of(context).pushAndRemoveUntil(
-              LoginPage.route(),
-              (route) => false,
-            ),
-            loading: () => Navigator.of(context).pushAndRemoveUntil(
-              LoadingPage.route(),
-              (route) => false,
-            ),
-            orElse: () => Navigator.of(context).pushAndRemoveUntil(
-              LoadingPage.route(),
-              (route) => false,
-            ),
+            notSignedIn: () => const LoginPage(),
+            orElse: () => const LoadingPage(),
           );
         },
-        child: const LoadingPage(),
       ),
       onGenerateRoute: (_) => LoadingPage.route(),
-    );
-  }
-}
-
-class Tester extends StatelessWidget {
-  const Tester({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Testing'),
     );
   }
 }

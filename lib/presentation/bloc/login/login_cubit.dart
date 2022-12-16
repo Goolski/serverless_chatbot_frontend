@@ -31,9 +31,10 @@ class LoginCubit extends Cubit<LoginState> {
     });
   }
 
-  void handleSignOut() async {
+  void handleSignOut() {
     emit(const LoginState.loading());
-    _googleAuthRepository.signOutFunction();
-    checkIfSignedIn();
+    _googleAuthRepository.handleSignOut().then(
+          (_) => checkIfSignedIn(),
+        );
   }
 }

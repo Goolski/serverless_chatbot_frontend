@@ -19,7 +19,6 @@ class GoogleAuthRepository {
   void reemitLastUser() => _googleUserStream.reemitLastValue();
 
   Function get signInFunction => _googleSignIn.signIn;
-  Function get signOutFunction => _googleSignIn.signOut;
 
   Future<void> handleSignIn(GoogleSignInAccount? potentialAccount) async {
     if (potentialAccount == null) {
@@ -35,6 +34,10 @@ class GoogleAuthRepository {
       );
       _googleUserStream.add(result);
     }
+  }
+
+  Future<void> handleSignOut() async {
+    (await _googleSignIn.signOut());
   }
 }
 

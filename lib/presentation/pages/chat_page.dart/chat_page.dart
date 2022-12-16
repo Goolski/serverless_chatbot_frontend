@@ -29,9 +29,7 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(actions: [
         ElevatedButton(
-            onPressed: () {
-              context.read<LoginCubit>().handleSignOut();
-            },
+            onPressed: context.read<LoginCubit>().handleSignOut,
             child: const Icon(Icons.logout))
       ]),
       body: SafeArea(
