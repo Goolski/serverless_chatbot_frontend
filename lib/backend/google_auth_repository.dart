@@ -21,26 +21,20 @@ class GoogleAuthRepository {
   Function get signInFunction => _googleSignIn.signIn;
   Function get signOutFunction => _googleSignIn.signOut;
 
-  Future<void> handleSignIn(
-      Future<GoogleSignInAccount?> potentialAccount) async {
-    final result = potentialAccount;
-    result.then(
-      (value) async {
-        if (value == null) {
-          return;
-        } else {
-          final accessToken = (await value.authentication).accessToken;
-          final result = GoogleUser(
-            id: value.id,
-            email: value.email,
-            accessToken: accessToken,
-            displayName: value.displayName,
-            photoUrl: value.photoUrl,
-          );
-          _googleUserStream.add(result);
-        }
-      },
-    );
+  Future<void> handleSignIn(GoogleSignInAccount? potentialAccount) async {
+    if (potentialAccount == null) {
+      return;
+    } else {
+      final accessToken = (await potentialAccount.authentication).accessToken;
+      final result = GoogleUser(
+        id: potentialAccount.id,
+        email: potentialAccount.email,
+        accessToken: accessToken,
+        displayName: potentialAccount.displayName,
+        photoUrl: potentialAccount.photoUrl,
+      );
+      _googleUserStream.add(result);
+    }
   }
 }
 

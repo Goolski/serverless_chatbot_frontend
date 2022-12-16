@@ -35,15 +35,13 @@ class AppView extends StatelessWidget {
       home: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           state.maybeWhen(
-            signedIn: () => Navigator.of(context).pushAndRemoveUntil<void>(
+            signedIn: () => Navigator.of(context).push(
               ChatPage.route(),
-              (route) => false,
             ),
-            notSignedIn: () => Navigator.of(context).pushAndRemoveUntil<void>(
+            notSignedIn: () => Navigator.of(context).push(
               LoginPage.route(),
-              (route) => false,
             ),
-            orElse: () => Tester(),
+            orElse: () {},
           );
         },
         child: const Tester(),

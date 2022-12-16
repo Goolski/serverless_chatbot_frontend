@@ -23,14 +23,15 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> handleSignIn() async {
-    final result = _googleAuthRepository.signInFunction();
-    await _googleAuthRepository.handleSignIn(result);
-    checkIfSignedIn();
+  void handleSignIn() {
+    _googleAuthRepository.signInFunction().then((result) {
+      _googleAuthRepository.handleSignIn(result).then(
+            (value) => checkIfSignedIn(),
+          );
+    });
   }
 
-  Future<void> handleSignOut() async {
-    await _googleAuthRepository.signOutFunction();
-    checkIfSignedIn();
+  void handleSignOut() {
+    _googleAuthRepository.signOutFunction().then(checkIfSignedIn());
   }
 }
