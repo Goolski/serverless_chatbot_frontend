@@ -8,4 +8,5 @@ class LoginState with _$LoginState {
   const factory LoginState.initialState() = Initial;
   const factory LoginState.notSignedIn() = NotSignedIn;
   const factory LoginState.signedIn() = SignedIn;
+  const factory LoginState.loading() = Loading;
 }

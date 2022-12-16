@@ -5,6 +5,7 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 
 import '../../../core/injection.dart';
+import '../../bloc/login/login_cubit.dart';
 import '../../widgets/chat_input_widget/chat_input_cubit.dart';
 import '../../widgets/chat_input_widget/chat_input_widget.dart';
 import 'chat_page_state.dart';
@@ -26,29 +27,33 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        ElevatedButton(
+            onPressed: () {
+              context.read<LoginCubit>().handleSignOut();
+            },
+            child: const Icon(Icons.logout))
+      ]),
       body: SafeArea(
         child: Column(
           children: [
             Flexible(
-              child: BlocListener<ChatPageCubit, ChatPageState>(
-                listener: (context, state) => print(state),
-                child: BlocBuilder<ChatPageCubit, ChatPageState>(
-                  builder: (context, state) => Chat(
-                    messages: state.messages,
-                    onSendPressed: (_) {},
-                    user: state.when(
-                      initial: (_) => const User(id: 'Temp User'),
-                      messagesUpdated: (messages, user) => user,
-                    ),
-                    customBottomWidget: BlocProvider(
-                      create: (context) => ChatInputCubit(),
-                      child: ChatInputWidget(
-                        onSendPressed: ({required String message}) =>
-                            _handleSendPressed(context, message),
-                        onRecordPressed: () => startRecording(context),
-                        onCancelPressed: () => stopRecording(context),
-                        onSendRecordPressed: () => sendRecording(context),
-                      ),
+              child: BlocBuilder<ChatPageCubit, ChatPageState>(
+                builder: (context, state) => Chat(
+                  messages: state.messages,
+                  onSendPressed: (_) {},
+                  user: state.when(
+                    initial: (_) => const User(id: 'Temp User'),
+                    messagesUpdated: (messages, user) => user,
+                  ),
+                  customBottomWidget: BlocProvider(
+                    create: (context) => ChatInputCubit(),
+                    child: ChatInputWidget(
+                      onSendPressed: ({required String message}) =>
+                          _handleSendPressed(context, message),
+                      onRecordPressed: () => startRecording(context),
+                      onCancelPressed: () => stopRecording(context),
+                      onSendRecordPressed: () => sendRecording(context),
                     ),
                   ),
                 ),

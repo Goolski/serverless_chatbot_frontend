@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'chat_input_state.dart';
 
 class ChatInputCubit extends Cubit<ChatInputState> {
-  ChatInputCubit() : super(ChatInputState.initial());
+  ChatInputCubit() : super(const ChatInputState.initial());
 
   void updateTextInput({required String input}) {
     emit(ChatInputState.typing(text: input));

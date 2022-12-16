@@ -21,6 +21,7 @@ mixin _$LoginState {
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
     required TResult Function() signedIn,
+    required TResult Function() loading,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$LoginState {
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
     TResult? Function()? signedIn,
+    TResult? Function()? loading,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$LoginState {
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
     TResult Function()? signedIn,
+    TResult Function()? loading,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$LoginState {
     required TResult Function(Initial value) initialState,
     required TResult Function(NotSignedIn value) notSignedIn,
     required TResult Function(SignedIn value) signedIn,
+    required TResult Function(Loading value) loading,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$LoginState {
     TResult? Function(Initial value)? initialState,
     TResult? Function(NotSignedIn value)? notSignedIn,
     TResult? Function(SignedIn value)? signedIn,
+    TResult? Function(Loading value)? loading,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$LoginState {
     TResult Function(Initial value)? initialState,
     TResult Function(NotSignedIn value)? notSignedIn,
     TResult Function(SignedIn value)? signedIn,
+    TResult Function(Loading value)? loading,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,6 +125,7 @@ class _$Initial implements Initial {
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
     required TResult Function() signedIn,
+    required TResult Function() loading,
   }) {
     return initialState();
   }
@@ -129,6 +136,7 @@ class _$Initial implements Initial {
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
     TResult? Function()? signedIn,
+    TResult? Function()? loading,
   }) {
     return initialState?.call();
   }
@@ -139,6 +147,7 @@ class _$Initial implements Initial {
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
     TResult Function()? signedIn,
+    TResult Function()? loading,
     required TResult orElse(),
   }) {
     if (initialState != null) {
@@ -153,6 +162,7 @@ class _$Initial implements Initial {
     required TResult Function(Initial value) initialState,
     required TResult Function(NotSignedIn value) notSignedIn,
     required TResult Function(SignedIn value) signedIn,
+    required TResult Function(Loading value) loading,
   }) {
     return initialState(this);
   }
@@ -163,6 +173,7 @@ class _$Initial implements Initial {
     TResult? Function(Initial value)? initialState,
     TResult? Function(NotSignedIn value)? notSignedIn,
     TResult? Function(SignedIn value)? signedIn,
+    TResult? Function(Loading value)? loading,
   }) {
     return initialState?.call(this);
   }
@@ -173,6 +184,7 @@ class _$Initial implements Initial {
     TResult Function(Initial value)? initialState,
     TResult Function(NotSignedIn value)? notSignedIn,
     TResult Function(SignedIn value)? signedIn,
+    TResult Function(Loading value)? loading,
     required TResult orElse(),
   }) {
     if (initialState != null) {
@@ -227,6 +239,7 @@ class _$NotSignedIn implements NotSignedIn {
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
     required TResult Function() signedIn,
+    required TResult Function() loading,
   }) {
     return notSignedIn();
   }
@@ -237,6 +250,7 @@ class _$NotSignedIn implements NotSignedIn {
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
     TResult? Function()? signedIn,
+    TResult? Function()? loading,
   }) {
     return notSignedIn?.call();
   }
@@ -247,6 +261,7 @@ class _$NotSignedIn implements NotSignedIn {
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
     TResult Function()? signedIn,
+    TResult Function()? loading,
     required TResult orElse(),
   }) {
     if (notSignedIn != null) {
@@ -261,6 +276,7 @@ class _$NotSignedIn implements NotSignedIn {
     required TResult Function(Initial value) initialState,
     required TResult Function(NotSignedIn value) notSignedIn,
     required TResult Function(SignedIn value) signedIn,
+    required TResult Function(Loading value) loading,
   }) {
     return notSignedIn(this);
   }
@@ -271,6 +287,7 @@ class _$NotSignedIn implements NotSignedIn {
     TResult? Function(Initial value)? initialState,
     TResult? Function(NotSignedIn value)? notSignedIn,
     TResult? Function(SignedIn value)? signedIn,
+    TResult? Function(Loading value)? loading,
   }) {
     return notSignedIn?.call(this);
   }
@@ -281,6 +298,7 @@ class _$NotSignedIn implements NotSignedIn {
     TResult Function(Initial value)? initialState,
     TResult Function(NotSignedIn value)? notSignedIn,
     TResult Function(SignedIn value)? signedIn,
+    TResult Function(Loading value)? loading,
     required TResult orElse(),
   }) {
     if (notSignedIn != null) {
@@ -334,6 +352,7 @@ class _$SignedIn implements SignedIn {
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
     required TResult Function() signedIn,
+    required TResult Function() loading,
   }) {
     return signedIn();
   }
@@ -344,6 +363,7 @@ class _$SignedIn implements SignedIn {
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
     TResult? Function()? signedIn,
+    TResult? Function()? loading,
   }) {
     return signedIn?.call();
   }
@@ -354,6 +374,7 @@ class _$SignedIn implements SignedIn {
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
     TResult Function()? signedIn,
+    TResult Function()? loading,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
@@ -368,6 +389,7 @@ class _$SignedIn implements SignedIn {
     required TResult Function(Initial value) initialState,
     required TResult Function(NotSignedIn value) notSignedIn,
     required TResult Function(SignedIn value) signedIn,
+    required TResult Function(Loading value) loading,
   }) {
     return signedIn(this);
   }
@@ -378,6 +400,7 @@ class _$SignedIn implements SignedIn {
     TResult? Function(Initial value)? initialState,
     TResult? Function(NotSignedIn value)? notSignedIn,
     TResult? Function(SignedIn value)? signedIn,
+    TResult? Function(Loading value)? loading,
   }) {
     return signedIn?.call(this);
   }
@@ -388,6 +411,7 @@ class _$SignedIn implements SignedIn {
     TResult Function(Initial value)? initialState,
     TResult Function(NotSignedIn value)? notSignedIn,
     TResult Function(SignedIn value)? signedIn,
+    TResult Function(Loading value)? loading,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
@@ -399,4 +423,116 @@ class _$SignedIn implements SignedIn {
 
 abstract class SignedIn implements LoginState {
   const factory SignedIn() = _$SignedIn;
+}
+
+/// @nodoc
+abstract class _$$LoadingCopyWith<$Res> {
+  factory _$$LoadingCopyWith(_$Loading value, $Res Function(_$Loading) then) =
+      __$$LoadingCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoadingCopyWithImpl<$Res>
+    extends _$LoginStateCopyWithImpl<$Res, _$Loading>
+    implements _$$LoadingCopyWith<$Res> {
+  __$$LoadingCopyWithImpl(_$Loading _value, $Res Function(_$Loading) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$Loading implements Loading {
+  const _$Loading();
+
+  @override
+  String toString() {
+    return 'LoginState.loading()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$Loading);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initialState,
+    required TResult Function() notSignedIn,
+    required TResult Function() signedIn,
+    required TResult Function() loading,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initialState,
+    TResult? Function()? notSignedIn,
+    TResult? Function()? signedIn,
+    TResult? Function()? loading,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initialState,
+    TResult Function()? notSignedIn,
+    TResult Function()? signedIn,
+    TResult Function()? loading,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initialState,
+    required TResult Function(NotSignedIn value) notSignedIn,
+    required TResult Function(SignedIn value) signedIn,
+    required TResult Function(Loading value) loading,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initialState,
+    TResult? Function(NotSignedIn value)? notSignedIn,
+    TResult? Function(SignedIn value)? signedIn,
+    TResult? Function(Loading value)? loading,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initialState,
+    TResult Function(NotSignedIn value)? notSignedIn,
+    TResult Function(SignedIn value)? signedIn,
+    TResult Function(Loading value)? loading,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Loading implements LoginState {
+  const factory Loading() = _$Loading;
 }
