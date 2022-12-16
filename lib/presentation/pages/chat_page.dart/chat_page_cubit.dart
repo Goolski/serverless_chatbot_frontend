@@ -38,7 +38,11 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       },
     );
     _googleUserStreamSubscription =
-        _googleAuthRepository.userStream.listen((user) {});
+        _googleAuthRepository.userStream.listen((user) {
+      _currentUser = user;
+      emit(ChatPageState.messagesUpdated(
+          messages: state.messages, user: getChatUser()!));
+    });
   }
 
   Future<void> onSendRecording() async {

@@ -12,14 +12,18 @@ class GoogleAuthRepository {
     ],
   );
 
-  final StreamController<GoogleUser> _streamController =
-      StreamController<GoogleUser>();
+  final GoogleUserStream _googleUserStream = GoogleUserStream();
 
   Future<bool> get isSignedIn => _googleSignIn.isSignedIn();
-  Stream<GoogleUser> get userStream => _streamController.stream;
+  Stream<GoogleUser> get userStream => _googleUserStream.stream;
+  void reemitLastUser() => _googleUserStream.reemitLastValue();
 
-  Future<void> signIn() async {
-    final result = _googleSignIn.signIn();
+  Function get signInFunction => _googleSignIn.signIn;
+  Function get signOutFunction => _googleSignIn.signOut;
+
+  Future<void> handleSignIn(
+      Future<GoogleSignInAccount?> potentialAccount) async {
+    final result = potentialAccount;
     result.then(
       (value) async {
         if (value == null) {
@@ -33,15 +37,31 @@ class GoogleAuthRepository {
             displayName: value.displayName,
             photoUrl: value.photoUrl,
           );
-          _streamController.add(result);
+          _googleUserStream.add(result);
         }
       },
     );
   }
+}
 
-  Future<void> signOut() async {
-    _googleSignIn.signOut();
+class GoogleUserStream {
+  final StreamController<GoogleUser> _controller =
+      StreamController<GoogleUser>();
+
+  GoogleUser? lastGoogleUser;
+
+  void add(GoogleUser newGoogleUser) {
+    lastGoogleUser = newGoogleUser;
+    _controller.add(newGoogleUser);
   }
+
+  void reemitLastValue() {
+    if (lastGoogleUser != null) {
+      _controller.add(lastGoogleUser!);
+    }
+  }
+
+  Stream<GoogleUser> get stream => _controller.stream;
 }
 
 class GoogleUser {

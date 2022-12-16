@@ -32,17 +32,34 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, child) => BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) => state.when(
-            initialState: () => Navigator.of(context).pushAndRemoveUntil<void>(
-                LoadingPage.route(), (route) => false),
-            notSignedIn: () => Navigator.of(context)
-                .pushAndRemoveUntil<void>(LoginPage.route(), (route) => false),
-            signedIn: () => () {
-                  print('hello World');
-                }),
-        child: child,
+      home: BlocListener<LoginCubit, LoginState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            signedIn: () => Navigator.of(context).pushAndRemoveUntil<void>(
+              ChatPage.route(),
+              (route) => false,
+            ),
+            notSignedIn: () => Navigator.of(context).pushAndRemoveUntil<void>(
+              LoginPage.route(),
+              (route) => false,
+            ),
+            orElse: () => Tester(),
+          );
+        },
+        child: const Tester(),
       ),
+      onGenerateRoute: (_) => LoadingPage.route(),
+    );
+  }
+}
+
+class Tester extends StatelessWidget {
+  const Tester({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Testing'),
     );
   }
 }

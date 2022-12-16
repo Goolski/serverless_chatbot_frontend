@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 
@@ -15,8 +16,11 @@ class ChatPage extends StatelessWidget {
 
   static Route<void> route() {
     return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-            create: (_) => getIt<ChatPageCubit>(), child: const ChatPage()));
+      builder: (_) => BlocProvider(
+        create: (_) => getIt<ChatPageCubit>(),
+        child: const ChatPage(),
+      ),
+    );
   }
 
   @override
@@ -26,13 +30,16 @@ class ChatPage extends StatelessWidget {
         child: Column(
           children: [
             Flexible(
-              child: BlocBuilder<ChatPageCubit, ChatPageState>(
-                builder: (context, state) => state.when(
-                  initial: (_) => const SizedBox.shrink(),
-                  messagesUpdated: (messages, user) => Chat(
-                    messages: messages,
+              child: BlocListener<ChatPageCubit, ChatPageState>(
+                listener: (context, state) => print(state),
+                child: BlocBuilder<ChatPageCubit, ChatPageState>(
+                  builder: (context, state) => Chat(
+                    messages: state.messages,
                     onSendPressed: (_) {},
-                    user: user,
+                    user: state.when(
+                      initial: (_) => const User(id: 'Temp User'),
+                      messagesUpdated: (messages, user) => user,
+                    ),
                     customBottomWidget: BlocProvider(
                       create: (context) => ChatInputCubit(),
                       child: ChatInputWidget(

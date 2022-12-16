@@ -31,7 +31,7 @@ class LoginPage extends StatelessWidget {
                 height: 40,
                 child: SignInButton(
                   Buttons.Google,
-                  onPressed: () => context.read<LoginCubit>().handleSignIn,
+                  onPressed: context.read<LoginCubit>().handleSignIn,
                 ),
               ),
             ],
