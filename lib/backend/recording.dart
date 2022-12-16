@@ -8,6 +8,8 @@ import 'package:record/record.dart';
 class Recording {
   final record = Record();
 
+  Future<bool> get isRecording async => record.isRecording();
+
   void startRecording() async {
 // Check and request permission
     if (await record.hasPermission()) {
