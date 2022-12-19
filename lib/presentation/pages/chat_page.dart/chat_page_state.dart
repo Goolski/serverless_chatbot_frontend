@@ -8,6 +8,7 @@ part 'chat_page_state.freezed.dart';
 class ChatPageState with _$ChatPageState {
   const factory ChatPageState.initial({
     required List<Message> messages,
+    required GoogleSignInAccount user,
   }) = Initial;
   const factory ChatPageState.messagesUpdated({
     required List<Message> messages,

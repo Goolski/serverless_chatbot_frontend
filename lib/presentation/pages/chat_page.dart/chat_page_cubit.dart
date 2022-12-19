@@ -16,6 +16,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
   final RecordDataSource _recording;
   final GoogleAuthRepository _googleAuthRepository;
   final ChatbotDataSource _chatbotBackend;
+  final GoogleSignInAccount _initialAccount;
   final Uuid _uuid = const Uuid();
 
   late final StreamSubscription<Map<String, Object>>
@@ -27,7 +28,13 @@ class ChatPageCubit extends Cubit<ChatPageState> {
     this._recording,
     this._googleAuthRepository,
     this._chatbotBackend,
-  ) : super(const ChatPageState.initial(messages: [])) {
+    this._initialAccount,
+  ) : super(
+          ChatPageState.initial(
+            messages: [],
+            user: _initialAccount,
+          ),
+        ) {
     init();
   }
 

@@ -41,7 +41,7 @@ class ChatPage extends StatelessWidget {
                   messages: state.messages,
                   onSendPressed: (_) {},
                   user: state.when(
-                    initial: (_) => const User(id: 'Temp User'),
+                    initial: (_, __) => const User(id: 'Temp User'),
                     messagesUpdated: (messages, user) => user,
                   ),
                   customBottomWidget: BlocProvider(

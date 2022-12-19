@@ -17,23 +17,28 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChatPageState {
   List<Message> get messages => throw _privateConstructorUsedError;
+  GoogleSignInAccount get user => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Message> messages) initial,
-    required TResult Function(List<Message> messages, AppUser user)
+    required TResult Function(List<Message> messages, GoogleSignInAccount user)
+        initial,
+    required TResult Function(List<Message> messages, GoogleSignInAccount user)
         messagesUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Message> messages)? initial,
-    TResult? Function(List<Message> messages, AppUser user)? messagesUpdated,
+    TResult? Function(List<Message> messages, GoogleSignInAccount user)?
+        initial,
+    TResult? Function(List<Message> messages, GoogleSignInAccount user)?
+        messagesUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Message> messages)? initial,
-    TResult Function(List<Message> messages, AppUser user)? messagesUpdated,
+    TResult Function(List<Message> messages, GoogleSignInAccount user)? initial,
+    TResult Function(List<Message> messages, GoogleSignInAccount user)?
+        messagesUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -68,7 +73,7 @@ abstract class $ChatPageStateCopyWith<$Res> {
           ChatPageState value, $Res Function(ChatPageState) then) =
       _$ChatPageStateCopyWithImpl<$Res, ChatPageState>;
   @useResult
-  $Res call({List<Message> messages});
+  $Res call({List<Message> messages, GoogleSignInAccount user});
 }
 
 /// @nodoc
@@ -85,12 +90,17 @@ class _$ChatPageStateCopyWithImpl<$Res, $Val extends ChatPageState>
   @override
   $Res call({
     Object? messages = null,
+    Object? user = null,
   }) {
     return _then(_value.copyWith(
       messages: null == messages
           ? _value.messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as GoogleSignInAccount,
     ) as $Val);
   }
 }
@@ -102,7 +112,7 @@ abstract class _$$InitialCopyWith<$Res>
       __$$InitialCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Message> messages});
+  $Res call({List<Message> messages, GoogleSignInAccount user});
 }
 
 /// @nodoc
@@ -116,12 +126,17 @@ class __$$InitialCopyWithImpl<$Res>
   @override
   $Res call({
     Object? messages = null,
+    Object? user = null,
   }) {
     return _then(_$Initial(
       messages: null == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
               as List<Message>,
+      user: null == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as GoogleSignInAccount,
     ));
   }
 }
@@ -129,7 +144,7 @@ class __$$InitialCopyWithImpl<$Res>
 /// @nodoc
 
 class _$Initial implements Initial {
-  const _$Initial({required final List<Message> messages})
+  const _$Initial({required final List<Message> messages, required this.user})
       : _messages = messages;
 
   final List<Message> _messages;
@@ -141,8 +156,11 @@ class _$Initial implements Initial {
   }
 
   @override
+  final GoogleSignInAccount user;
+
+  @override
   String toString() {
-    return 'ChatPageState.initial(messages: $messages)';
+    return 'ChatPageState.initial(messages: $messages, user: $user)';
   }
 
   @override
@@ -150,12 +168,13 @@ class _$Initial implements Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$Initial &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_messages), user);
 
   @JsonKey(ignore: true)
   @override
@@ -166,31 +185,35 @@ class _$Initial implements Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Message> messages) initial,
-    required TResult Function(List<Message> messages, AppUser user)
+    required TResult Function(List<Message> messages, GoogleSignInAccount user)
+        initial,
+    required TResult Function(List<Message> messages, GoogleSignInAccount user)
         messagesUpdated,
   }) {
-    return initial(messages);
+    return initial(messages, user);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Message> messages)? initial,
-    TResult? Function(List<Message> messages, AppUser user)? messagesUpdated,
+    TResult? Function(List<Message> messages, GoogleSignInAccount user)?
+        initial,
+    TResult? Function(List<Message> messages, GoogleSignInAccount user)?
+        messagesUpdated,
   }) {
-    return initial?.call(messages);
+    return initial?.call(messages, user);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Message> messages)? initial,
-    TResult Function(List<Message> messages, AppUser user)? messagesUpdated,
+    TResult Function(List<Message> messages, GoogleSignInAccount user)? initial,
+    TResult Function(List<Message> messages, GoogleSignInAccount user)?
+        messagesUpdated,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(messages);
+      return initial(messages, user);
     }
     return orElse();
   }
@@ -228,10 +251,14 @@ class _$Initial implements Initial {
 }
 
 abstract class Initial implements ChatPageState {
-  const factory Initial({required final List<Message> messages}) = _$Initial;
+  const factory Initial(
+      {required final List<Message> messages,
+      required final GoogleSignInAccount user}) = _$Initial;
 
   @override
   List<Message> get messages;
+  @override
+  GoogleSignInAccount get user;
   @override
   @JsonKey(ignore: true)
   _$$InitialCopyWith<_$Initial> get copyWith =>
@@ -246,7 +273,7 @@ abstract class _$$MessagesUpdatedCopyWith<$Res>
       __$$MessagesUpdatedCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Message> messages, AppUser user});
+  $Res call({List<Message> messages, GoogleSignInAccount user});
 }
 
 /// @nodoc
@@ -271,7 +298,7 @@ class __$$MessagesUpdatedCopyWithImpl<$Res>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as AppUser,
+              as GoogleSignInAccount,
     ));
   }
 }
@@ -292,7 +319,7 @@ class _$MessagesUpdated implements MessagesUpdated {
   }
 
   @override
-  final AppUser user;
+  final GoogleSignInAccount user;
 
   @override
   String toString() {
@@ -321,8 +348,9 @@ class _$MessagesUpdated implements MessagesUpdated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Message> messages) initial,
-    required TResult Function(List<Message> messages, AppUser user)
+    required TResult Function(List<Message> messages, GoogleSignInAccount user)
+        initial,
+    required TResult Function(List<Message> messages, GoogleSignInAccount user)
         messagesUpdated,
   }) {
     return messagesUpdated(messages, user);
@@ -331,8 +359,10 @@ class _$MessagesUpdated implements MessagesUpdated {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Message> messages)? initial,
-    TResult? Function(List<Message> messages, AppUser user)? messagesUpdated,
+    TResult? Function(List<Message> messages, GoogleSignInAccount user)?
+        initial,
+    TResult? Function(List<Message> messages, GoogleSignInAccount user)?
+        messagesUpdated,
   }) {
     return messagesUpdated?.call(messages, user);
   }
@@ -340,8 +370,9 @@ class _$MessagesUpdated implements MessagesUpdated {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Message> messages)? initial,
-    TResult Function(List<Message> messages, AppUser user)? messagesUpdated,
+    TResult Function(List<Message> messages, GoogleSignInAccount user)? initial,
+    TResult Function(List<Message> messages, GoogleSignInAccount user)?
+        messagesUpdated,
     required TResult orElse(),
   }) {
     if (messagesUpdated != null) {
@@ -385,11 +416,12 @@ class _$MessagesUpdated implements MessagesUpdated {
 abstract class MessagesUpdated implements ChatPageState {
   const factory MessagesUpdated(
       {required final List<Message> messages,
-      required final AppUser user}) = _$MessagesUpdated;
+      required final GoogleSignInAccount user}) = _$MessagesUpdated;
 
   @override
   List<Message> get messages;
-  AppUser get user;
+  @override
+  GoogleSignInAccount get user;
   @override
   @JsonKey(ignore: true)
   _$$MessagesUpdatedCopyWith<_$MessagesUpdated> get copyWith =>
