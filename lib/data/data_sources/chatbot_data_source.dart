@@ -13,7 +13,7 @@ enum RequestContentType {
 }
 
 @injectable
-class ChatbotBackend {
+class ChatbotDataSource {
   final ChatbotResponseCreator chatbotResponseCreator =
       ChatbotResponseCreator();
 

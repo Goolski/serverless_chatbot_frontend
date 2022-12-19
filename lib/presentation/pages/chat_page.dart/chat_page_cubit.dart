@@ -2,19 +2,19 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:serverless_chatbot/backend/chatbot_backend.dart';
-import 'package:serverless_chatbot/backend/google_auth_repository.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as chatTypes;
 import 'package:uuid/uuid.dart';
 
-import '../../../backend/recording.dart';
+import '../../../data/data_sources/chatbot_backend.dart';
+import '../../../data/data_sources/google_auth_repository.dart';
+import '../../../data/data_sources/recording.dart';
 import 'chat_page_state.dart';
 
 @injectable
 class ChatPageCubit extends Cubit<ChatPageState> {
   final Recording _recording;
   final GoogleAuthRepository _googleAuthRepository;
-  final ChatbotBackend _chatbotBackend;
+  final ChatbotDataSource _chatbotBackend;
   final Uuid _uuid = const Uuid();
 
   GoogleUser? _currentUser;
@@ -43,6 +43,8 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       emit(ChatPageState.messagesUpdated(
           messages: state.messages, user: getChatUser()!));
     });
+
+    _googleAuthRepository.reemitLastUser();
   }
 
   Future<void> onSendRecording() async {

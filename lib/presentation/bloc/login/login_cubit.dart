@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:serverless_chatbot/backend/google_auth_repository.dart';
 
+import '../../../data/data_sources/google_auth_repository.dart';
 import 'login_state.dart';
 
 @injectable

@@ -5,6 +5,9 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GoogleAuthRepository {
+  GoogleAuthRepository() {
+    init();
+  }
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
       'https://www.googleapis.com/auth/calendar',
@@ -12,11 +15,22 @@ class GoogleAuthRepository {
     ],
   );
 
+  void init() {
+    _googleSignIn.isSignedIn().then((signedIn) {
+      if (signedIn) {
+        handleSignIn(_googleSignIn.currentUser);
+      }
+    });
+  }
+
   final GoogleUserStream _googleUserStream = GoogleUserStream();
 
   Future<bool> get isSignedIn => _googleSignIn.isSignedIn();
   Stream<GoogleUser> get userStream => _googleUserStream.stream;
-  void reemitLastUser() => _googleUserStream.reemitLastValue();
+
+  void reemitLastUser() {
+    _googleUserStream.reemitLastValue();
+  }
 
   Function get signInFunction => _googleSignIn.signIn;
 
@@ -37,7 +51,7 @@ class GoogleAuthRepository {
   }
 
   Future<void> handleSignOut() async {
-    (await _googleSignIn.signOut());
+    await _googleSignIn.signOut();
   }
 }
 
@@ -49,12 +63,12 @@ class GoogleUserStream {
 
   void add(GoogleUser newGoogleUser) {
     lastGoogleUser = newGoogleUser;
-    _controller.add(newGoogleUser);
+    _controller.sink.add(newGoogleUser);
   }
 
   void reemitLastValue() {
     if (lastGoogleUser != null) {
-      _controller.add(lastGoogleUser!);
+      _controller.sink.add(lastGoogleUser!);
     }
   }
 

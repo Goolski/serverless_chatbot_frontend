@@ -47,7 +47,7 @@ class ChatPage extends StatelessWidget {
                   customBottomWidget: BlocProvider(
                     create: (context) => ChatInputCubit(),
                     child: ChatInputWidget(
-                      onSendPressed: ({required String message}) =>
+                      onSendPressed: (String message) =>
                           _handleSendPressed(context, message),
                       onRecordPressed: () => startRecording(context),
                       onCancelPressed: () => stopRecording(context),
