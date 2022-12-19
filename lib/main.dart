@@ -36,7 +36,7 @@ class AppView extends StatelessWidget {
         builder: (context, state) {
           print(state);
           return state.maybeWhen(
-            signedIn: () => BlocProvider(
+            signedIn: (_) => BlocProvider(
               create: (_) => getIt<ChatPageCubit>(),
               child: const ChatPage(),
             ),

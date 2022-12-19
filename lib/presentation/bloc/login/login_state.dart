@@ -7,6 +7,7 @@ part 'login_state.freezed.dart';
 class LoginState with _$LoginState {
   const factory LoginState.initialState() = Initial;
   const factory LoginState.notSignedIn() = NotSignedIn;
-  const factory LoginState.signedIn() = SignedIn;
+  const factory LoginState.signedIn({required GoogleSignInAccount account}) =
+      SignedIn;
   const factory LoginState.loading() = Loading;
 }

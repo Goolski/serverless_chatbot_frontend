@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
 @injectable
-class Recording {
+class RecordDataSource {
   final record = Record();
 
   Future<bool> get isRecording async => record.isRecording();

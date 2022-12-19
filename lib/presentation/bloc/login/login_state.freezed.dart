@@ -20,7 +20,7 @@ mixin _$LoginState {
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
-    required TResult Function() signedIn,
+    required TResult Function(GoogleSignInAccount account) signedIn,
     required TResult Function() loading,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$LoginState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
-    TResult? Function()? signedIn,
+    TResult? Function(GoogleSignInAccount account)? signedIn,
     TResult? Function()? loading,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$LoginState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
-    TResult Function()? signedIn,
+    TResult Function(GoogleSignInAccount account)? signedIn,
     TResult Function()? loading,
     required TResult orElse(),
   }) =>
@@ -124,7 +124,7 @@ class _$Initial implements Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
-    required TResult Function() signedIn,
+    required TResult Function(GoogleSignInAccount account) signedIn,
     required TResult Function() loading,
   }) {
     return initialState();
@@ -135,7 +135,7 @@ class _$Initial implements Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
-    TResult? Function()? signedIn,
+    TResult? Function(GoogleSignInAccount account)? signedIn,
     TResult? Function()? loading,
   }) {
     return initialState?.call();
@@ -146,7 +146,7 @@ class _$Initial implements Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
-    TResult Function()? signedIn,
+    TResult Function(GoogleSignInAccount account)? signedIn,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -238,7 +238,7 @@ class _$NotSignedIn implements NotSignedIn {
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
-    required TResult Function() signedIn,
+    required TResult Function(GoogleSignInAccount account) signedIn,
     required TResult Function() loading,
   }) {
     return notSignedIn();
@@ -249,7 +249,7 @@ class _$NotSignedIn implements NotSignedIn {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
-    TResult? Function()? signedIn,
+    TResult? Function(GoogleSignInAccount account)? signedIn,
     TResult? Function()? loading,
   }) {
     return notSignedIn?.call();
@@ -260,7 +260,7 @@ class _$NotSignedIn implements NotSignedIn {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
-    TResult Function()? signedIn,
+    TResult Function(GoogleSignInAccount account)? signedIn,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -317,6 +317,8 @@ abstract class _$$SignedInCopyWith<$Res> {
   factory _$$SignedInCopyWith(
           _$SignedIn value, $Res Function(_$SignedIn) then) =
       __$$SignedInCopyWithImpl<$Res>;
+  @useResult
+  $Res call({GoogleSignInAccount account});
 }
 
 /// @nodoc
@@ -325,36 +327,60 @@ class __$$SignedInCopyWithImpl<$Res>
     implements _$$SignedInCopyWith<$Res> {
   __$$SignedInCopyWithImpl(_$SignedIn _value, $Res Function(_$SignedIn) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? account = null,
+  }) {
+    return _then(_$SignedIn(
+      account: null == account
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as GoogleSignInAccount,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$SignedIn implements SignedIn {
-  const _$SignedIn();
+  const _$SignedIn({required this.account});
+
+  @override
+  final GoogleSignInAccount account;
 
   @override
   String toString() {
-    return 'LoginState.signedIn()';
+    return 'LoginState.signedIn(account: $account)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SignedIn);
+        (other.runtimeType == runtimeType &&
+            other is _$SignedIn &&
+            (identical(other.account, account) || other.account == account));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, account);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SignedInCopyWith<_$SignedIn> get copyWith =>
+      __$$SignedInCopyWithImpl<_$SignedIn>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
-    required TResult Function() signedIn,
+    required TResult Function(GoogleSignInAccount account) signedIn,
     required TResult Function() loading,
   }) {
-    return signedIn();
+    return signedIn(account);
   }
 
   @override
@@ -362,10 +388,10 @@ class _$SignedIn implements SignedIn {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
-    TResult? Function()? signedIn,
+    TResult? Function(GoogleSignInAccount account)? signedIn,
     TResult? Function()? loading,
   }) {
-    return signedIn?.call();
+    return signedIn?.call(account);
   }
 
   @override
@@ -373,12 +399,12 @@ class _$SignedIn implements SignedIn {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
-    TResult Function()? signedIn,
+    TResult Function(GoogleSignInAccount account)? signedIn,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
     if (signedIn != null) {
-      return signedIn();
+      return signedIn(account);
     }
     return orElse();
   }
@@ -422,7 +448,13 @@ class _$SignedIn implements SignedIn {
 }
 
 abstract class SignedIn implements LoginState {
-  const factory SignedIn() = _$SignedIn;
+  const factory SignedIn({required final GoogleSignInAccount account}) =
+      _$SignedIn;
+
+  GoogleSignInAccount get account;
+  @JsonKey(ignore: true)
+  _$$SignedInCopyWith<_$SignedIn> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -463,7 +495,7 @@ class _$Loading implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initialState,
     required TResult Function() notSignedIn,
-    required TResult Function() signedIn,
+    required TResult Function(GoogleSignInAccount account) signedIn,
     required TResult Function() loading,
   }) {
     return loading();
@@ -474,7 +506,7 @@ class _$Loading implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initialState,
     TResult? Function()? notSignedIn,
-    TResult? Function()? signedIn,
+    TResult? Function(GoogleSignInAccount account)? signedIn,
     TResult? Function()? loading,
   }) {
     return loading?.call();
@@ -485,7 +517,7 @@ class _$Loading implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initialState,
     TResult Function()? notSignedIn,
-    TResult Function()? signedIn,
+    TResult Function(GoogleSignInAccount account)? signedIn,
     TResult Function()? loading,
     required TResult orElse(),
   }) {

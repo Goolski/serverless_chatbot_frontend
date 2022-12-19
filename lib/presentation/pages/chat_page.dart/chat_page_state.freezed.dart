@@ -20,20 +20,20 @@ mixin _$ChatPageState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Message> messages) initial,
-    required TResult Function(List<Message> messages, User user)
+    required TResult Function(List<Message> messages, AppUser user)
         messagesUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<Message> messages)? initial,
-    TResult? Function(List<Message> messages, User user)? messagesUpdated,
+    TResult? Function(List<Message> messages, AppUser user)? messagesUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Message> messages)? initial,
-    TResult Function(List<Message> messages, User user)? messagesUpdated,
+    TResult Function(List<Message> messages, AppUser user)? messagesUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -167,7 +167,7 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Message> messages) initial,
-    required TResult Function(List<Message> messages, User user)
+    required TResult Function(List<Message> messages, AppUser user)
         messagesUpdated,
   }) {
     return initial(messages);
@@ -177,7 +177,7 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<Message> messages)? initial,
-    TResult? Function(List<Message> messages, User user)? messagesUpdated,
+    TResult? Function(List<Message> messages, AppUser user)? messagesUpdated,
   }) {
     return initial?.call(messages);
   }
@@ -186,7 +186,7 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Message> messages)? initial,
-    TResult Function(List<Message> messages, User user)? messagesUpdated,
+    TResult Function(List<Message> messages, AppUser user)? messagesUpdated,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -246,7 +246,7 @@ abstract class _$$MessagesUpdatedCopyWith<$Res>
       __$$MessagesUpdatedCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Message> messages, User user});
+  $Res call({List<Message> messages, AppUser user});
 }
 
 /// @nodoc
@@ -271,7 +271,7 @@ class __$$MessagesUpdatedCopyWithImpl<$Res>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as AppUser,
     ));
   }
 }
@@ -292,7 +292,7 @@ class _$MessagesUpdated implements MessagesUpdated {
   }
 
   @override
-  final User user;
+  final AppUser user;
 
   @override
   String toString() {
@@ -322,7 +322,7 @@ class _$MessagesUpdated implements MessagesUpdated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Message> messages) initial,
-    required TResult Function(List<Message> messages, User user)
+    required TResult Function(List<Message> messages, AppUser user)
         messagesUpdated,
   }) {
     return messagesUpdated(messages, user);
@@ -332,7 +332,7 @@ class _$MessagesUpdated implements MessagesUpdated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<Message> messages)? initial,
-    TResult? Function(List<Message> messages, User user)? messagesUpdated,
+    TResult? Function(List<Message> messages, AppUser user)? messagesUpdated,
   }) {
     return messagesUpdated?.call(messages, user);
   }
@@ -341,7 +341,7 @@ class _$MessagesUpdated implements MessagesUpdated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Message> messages)? initial,
-    TResult Function(List<Message> messages, User user)? messagesUpdated,
+    TResult Function(List<Message> messages, AppUser user)? messagesUpdated,
     required TResult orElse(),
   }) {
     if (messagesUpdated != null) {
@@ -385,11 +385,11 @@ class _$MessagesUpdated implements MessagesUpdated {
 abstract class MessagesUpdated implements ChatPageState {
   const factory MessagesUpdated(
       {required final List<Message> messages,
-      required final User user}) = _$MessagesUpdated;
+      required final AppUser user}) = _$MessagesUpdated;
 
   @override
   List<Message> get messages;
-  User get user;
+  AppUser get user;
   @override
   @JsonKey(ignore: true)
   _$$MessagesUpdatedCopyWith<_$MessagesUpdated> get copyWith =>
