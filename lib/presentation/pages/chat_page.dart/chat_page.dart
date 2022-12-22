@@ -45,15 +45,12 @@ class ChatPage extends StatelessWidget {
                     firstName: state.user.displayName,
                     imageUrl: state.user.photoUrl,
                   ),
-                  customBottomWidget: BlocProvider(
-                    create: (context) => ChatInputCubit(),
-                    child: ChatInputWidget(
-                      onSendPressed: (String message) =>
-                          _handleSendPressed(context, message),
-                      onRecordPressed: () => startRecording(context),
-                      onCancelPressed: () => stopRecording(context),
-                      onSendRecordPressed: () => sendRecording(context),
-                    ),
+                  customBottomWidget: ChatInputWidget(
+                    onSendPressed: (String message) =>
+                        _handleSendPressed(context, message),
+                    onRecordPressed: () => startRecording(context),
+                    onCancelPressed: () => stopRecording(context),
+                    onSendRecordPressed: () => sendRecording(context),
                   ),
                 ),
               ),

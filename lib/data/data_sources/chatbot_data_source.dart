@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
@@ -30,19 +31,26 @@ class ChatbotDataSource {
     required String userId,
     required RequestContentType contentType,
   }) {
-    final url = Uri.https(URL, '/Prod/core');
+    final url = Uri.https(URL, 'Prod/core');
     final body = createBody(
       message: message,
       userId: userId,
       contentType: contentType,
     );
-    http.post(
-      url,
-      body: jsonEncode(body),
-      headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"},
-    ).then(
-      (response) => chatbotResponseCreator.addResponse(response),
-    );
+    http
+        .post(
+          url,
+          body: jsonEncode(body),
+          headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"},
+        )
+        .then(
+          (response) => chatbotResponseCreator.addResponse(response),
+        )
+        .onError(
+          (error, stackTrace) => print(
+            "error: $error, \n stackTrace: $stackTrace",
+          ),
+        );
   }
 
   Map<String, Object> createBody({

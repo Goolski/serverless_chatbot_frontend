@@ -4,6 +4,7 @@ import 'package:serverless_chatbot/core/injection.dart';
 import 'package:serverless_chatbot/presentation/bloc/login/login_cubit.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
+import 'package:serverless_chatbot/presentation/widgets/chat_input_widget/chat_input_cubit.dart';
 
 import 'presentation/bloc/login/login_state.dart';
 import 'presentation/pages/loading_page/loading_page.dart';
@@ -34,10 +35,16 @@ class AppView extends StatelessWidget {
     return MaterialApp(
       home: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
-          print(state);
           return state.maybeWhen(
-            signedIn: (account) => BlocProvider(
-              create: (_) => getIt<ChatPageCubit>(param1: account),
+            signedIn: (account) => MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => getIt<ChatPageCubit>(param1: account),
+                ),
+                BlocProvider(
+                  create: (_) => ChatInputCubit(),
+                ),
+              ],
               child: const ChatPage(),
             ),
             notSignedIn: () => const LoginPage(),

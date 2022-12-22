@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 import 'chat_input_cubit.dart';
 import 'chat_input_state.dart';
 
-class ChatInputWidget extends StatelessWidget {
+class ChatInputWidget extends StatefulWidget {
   final Function onSendPressed;
   final Function onRecordPressed;
   final Function onSendRecordPressed;
@@ -18,15 +19,25 @@ class ChatInputWidget extends StatelessWidget {
   });
 
   @override
+  State<ChatInputWidget> createState() => _ChatInputWidgetState();
+}
+
+class _ChatInputWidgetState extends State<ChatInputWidget> {
+  final _controller = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8.0),
-      child: BlocBuilder<ChatInputCubit, ChatInputState>(
+      padding: const EdgeInsets.all(8.0),
+      child: BlocConsumer<ChatInputCubit, ChatInputState>(
+        listenWhen: (previous, current) => current is Initial,
+        listener: (context, state) => _controller.clear(),
         builder: (context, state) => state.map(
           initial: (value) => Row(
             children: [
               Flexible(
                 child: TextField(
+                  controller: _controller,
                   onChanged: (value) => context
                       .read<ChatInputCubit>()
                       .updateTextInput(input: value),
@@ -34,7 +45,7 @@ class ChatInputWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () => onMicPressed(context: context),
-                icon: Icon(Icons.mic),
+                icon: const Icon(Icons.mic),
               ),
             ],
           ),
@@ -42,13 +53,14 @@ class ChatInputWidget extends StatelessWidget {
             children: [
               Flexible(
                 child: TextField(
+                  controller: _controller,
                   onChanged: (value) => context
                       .read<ChatInputCubit>()
                       .updateTextInput(input: value),
                   decoration: InputDecoration(
                       suffixIcon: value.text != ''
                           ? IconButton(
-                              icon: Icon(Icons.send),
+                              icon: const Icon(Icons.send),
                               onPressed: () => sendPressed(
                                 context: context,
                                 message: value.text,
@@ -59,7 +71,7 @@ class ChatInputWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () => onMicPressed(context: context),
-                icon: Icon(Icons.mic),
+                icon: const Icon(Icons.mic),
               ),
             ],
           ),
@@ -68,11 +80,11 @@ class ChatInputWidget extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () => onCancel(context: context),
-                icon: Icon(Icons.cancel),
+                icon: const Icon(Icons.cancel),
               ),
               IconButton(
                 onPressed: () => onAcceptRecording(context: context),
-                icon: Icon(Icons.done),
+                icon: const Icon(Icons.done),
               ),
             ],
           ),
@@ -82,22 +94,22 @@ class ChatInputWidget extends StatelessWidget {
   }
 
   void sendPressed({required BuildContext context, required String message}) {
-    onSendPressed(message);
+    widget.onSendPressed(message);
     context.read<ChatInputCubit>().onTextSend();
   }
 
   void onMicPressed({required BuildContext context}) {
-    onRecordPressed();
+    widget.onRecordPressed();
     context.read<ChatInputCubit>().onMicPressed();
   }
 
   void onCancel({required BuildContext context}) {
-    onCancelPressed();
+    widget.onCancelPressed();
     context.read<ChatInputCubit>().onRecordingStopped();
   }
 
   void onAcceptRecording({required BuildContext context}) {
-    onSendRecordPressed();
+    widget.onSendRecordPressed();
     context.read<ChatInputCubit>().onRecordingStopped();
   }
 }

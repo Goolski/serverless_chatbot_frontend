@@ -43,6 +43,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       (message) {
         onServerResponse(newMessage: message);
       },
+      onError: (obj, stackTrace) => print("$obj ::: $stackTrace"),
     );
 
     _googleUserStreamSubscription =
