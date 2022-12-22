@@ -22,7 +22,11 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void init() {
-    _googleAuthRepository.googleUserStream.listen((event) {});
+    _googleAuthRepository.googleUserStream.listen((event) {
+      checkIfSignedIn(potentialAccount: event);
+    });
+
+    checkIfSignedIn(potentialAccount: _googleAuthRepository.currentUser);
   }
 
   void checkIfSignedIn({required GoogleSignInAccount? potentialAccount}) async {

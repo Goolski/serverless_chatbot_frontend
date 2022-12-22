@@ -5,11 +5,16 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-const URL = '3p4mjoachc.execute-api.eu-west-2.amazonaws.com';
+const URL = 'ggcxf1l9ac.execute-api.eu-west-2.amazonaws.com';
 
 enum RequestContentType {
   text,
   audio,
+}
+
+enum MessageAuthor {
+  bot,
+  user,
 }
 
 @injectable
@@ -17,8 +22,7 @@ class ChatbotDataSource {
   final ChatbotResponseCreator chatbotResponseCreator =
       ChatbotResponseCreator();
 
-  Stream<Map<String, Object>> get responseStream =>
-      chatbotResponseCreator.stream;
+  Stream<Message> get responseStream => chatbotResponseCreator.stream;
 
   void sendRequest({
     required String message,
@@ -26,7 +30,7 @@ class ChatbotDataSource {
     required String userId,
     required RequestContentType contentType,
   }) {
-    final url = Uri.https(URL, '/core');
+    final url = Uri.https(URL, '/Prod/core');
     final body = createBody(
       message: message,
       userId: userId,
@@ -39,7 +43,6 @@ class ChatbotDataSource {
     ).then(
       (response) => chatbotResponseCreator.addResponse(response),
     );
-    // final responseMessage = jsonDecode(response.body)['message'];
   }
 
   Map<String, Object> createBody({
@@ -66,12 +69,13 @@ class ChatbotDataSource {
 }
 
 class ChatbotResponseCreator {
-  final _controller = StreamController<Map<String, Object>>();
+  final _controller = StreamController<Message>();
 
   void addResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        _controller.add(jsonDecode(response.body));
+        final decodedBody = jsonDecode(response.body);
+        parseBody(decodedBody: decodedBody);
         break;
       case 400:
         _controller.addError('Bad Request');
@@ -106,5 +110,68 @@ class ChatbotResponseCreator {
     }
   }
 
-  Stream<Map<String, Object>> get stream => _controller.stream;
+  Stream<Message> get stream => _controller.stream;
+
+  void parseBody({required decodedBody}) {
+    if (decodedBody['inputTranscript'] != null) {
+      try {
+        final message = decodedBody['inputTranscript'] as String;
+        _controller.add(
+          Message(
+            author: MessageAuthor.user,
+            message: message,
+          ),
+        );
+      } catch (error) {
+        print(error);
+      }
+    }
+    if (decodedBody['audioStream'] != null) {
+      try {
+        final audio = decodedBody['audioStream'] as String;
+        final message = decodedBody['message'] as String;
+        _controller.add(
+          AudioMessage(
+            audioMessage: audio,
+            author: MessageAuthor.bot,
+            message: message,
+          ),
+        );
+      } catch (error) {
+        print(error);
+      }
+    } else if (decodedBody['message'] != null) {
+      try {
+        final message = decodedBody['message'] as String;
+        _controller.add(
+          Message(
+            author: MessageAuthor.bot,
+            message: message,
+          ),
+        );
+      } catch (error) {
+        print(error);
+      }
+    }
+  }
+}
+
+class Message {
+  final String message;
+  final MessageAuthor author;
+
+  Message({
+    required this.message,
+    required this.author,
+  });
+}
+
+class AudioMessage extends Message {
+  final String audioMessage;
+
+  AudioMessage({
+    required this.audioMessage,
+    required String message,
+    required MessageAuthor author,
+  }) : super(message: message, author: author);
 }

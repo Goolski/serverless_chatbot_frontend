@@ -5,7 +5,9 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class GoogleAuthRepository {
-  GoogleAuthRepository();
+  GoogleAuthRepository() {
+    _googleSignIn.signInSilently();
+  }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [

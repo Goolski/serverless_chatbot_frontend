@@ -40,9 +40,10 @@ class ChatPage extends StatelessWidget {
                 builder: (context, state) => Chat(
                   messages: state.messages,
                   onSendPressed: (_) {},
-                  user: state.when(
-                    initial: (_, __) => const User(id: 'Temp User'),
-                    messagesUpdated: (messages, user) => user,
+                  user: User(
+                    id: state.user.id,
+                    firstName: state.user.displayName,
+                    imageUrl: state.user.photoUrl,
                   ),
                   customBottomWidget: BlocProvider(
                     create: (context) => ChatInputCubit(),
