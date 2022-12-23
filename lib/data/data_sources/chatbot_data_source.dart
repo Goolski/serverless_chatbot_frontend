@@ -135,7 +135,7 @@ class ChatbotResponseCreator {
     }
     if (decodedBody['audioStream'] != null) {
       try {
-        final audio = decodedBody['audioStream'] as String;
+        final audio = base64Decode(decodedBody['audioStream'] as String);
         final message = decodedBody['message'] as String;
         _controller.add(
           AudioMessage(
@@ -174,7 +174,7 @@ class Message {
 }
 
 class AudioMessage extends Message {
-  final String audioMessage;
+  final List<int> audioMessage;
 
   AudioMessage({
     required this.audioMessage,

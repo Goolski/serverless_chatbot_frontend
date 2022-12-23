@@ -117,24 +117,32 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       addMessage(message: message);
     }
     if (newMessage is AudioMessage) {
-      createAudioMessage();
-      final message = createTextMessage(
-        message: newMessage.message,
-        author: chatBotUser,
+      final audioMessage = createAudioMessage(
+        audio: newMessage.audioMessage,
+        author: newMessage.author == MessageAuthor.bot
+            ? chatBotUser
+            : getChatUser(),
       );
-      addMessage(message: message);
-    } else {
-      final message = createTextMessage(
-        message: newMessage.message,
-        author: chatBotUser,
-      );
-      addMessage(message: message);
+      addMessage(message: audioMessage);
     }
+    final message = createTextMessage(
+      message: newMessage.message,
+      author: chatBotUser,
+    );
+    addMessage(message: message);
   }
 
-  //TODO: implement createAudioMessage()
-  void createAudioMessage() {
-    print('I should implement createAudioMessage');
+  chatTypes.CustomMessage createAudioMessage(
+      {required List<int> audio, required chatTypes.User author}) {
+    final partialMessage =
+        chatTypes.PartialCustom(metadata: {'type': 'audio', 'audio': audio});
+    final message = chatTypes.CustomMessage.fromPartial(
+      partialCustom: partialMessage,
+      author: author,
+      id: _uuid.v4(),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
+    return message;
   }
 
   chatTypes.TextMessage createTextMessage(
