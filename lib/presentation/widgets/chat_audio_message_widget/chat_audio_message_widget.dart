@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_cubit.dart';
 
@@ -13,12 +11,22 @@ class ChatAudioMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ChatAudioMessageCubit, ChatAudioMessageState>(
       builder: (context, state) => state.when(
-        initial: (audioBytes) => ElevatedButton(
+        initial: (audioBytes) => TextButton(
           onPressed: context.read<ChatAudioMessageCubit>().play,
+          style: const ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+              Colors.transparent,
+            ),
+          ),
           child: const Icon(Icons.play_arrow),
         ),
-        playing: (audioBytes) => ElevatedButton(
+        playing: (audioBytes) => TextButton(
           onPressed: context.read<ChatAudioMessageCubit>().stop,
+          style: const ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+              Colors.transparent,
+            ),
+          ),
           child: const Icon(Icons.stop),
         ),
       ),
