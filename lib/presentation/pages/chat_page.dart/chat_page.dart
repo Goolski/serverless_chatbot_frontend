@@ -57,7 +57,8 @@ class ChatPage extends StatelessWidget {
                   customMessageBuilder: (p0, {messageWidth = 0}) =>
                       BlocProvider(
                     create: (_) => getIt<ChatAudioMessageCubit>(
-                        param1: p0.metadata!['audio']),
+                        param1: p0.metadata!['audio'])
+                      ..play(),
                     child: const ChatAudioMessageWidget(),
                   ),
                 ),
