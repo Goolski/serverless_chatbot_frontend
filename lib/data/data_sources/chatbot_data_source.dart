@@ -29,18 +29,23 @@ class ChatbotDataSource {
     required String authToken,
     required String userId,
     required RequestContentType contentType,
+    required String location,
   }) {
     final url = Uri.https(URL, 'Prod/core');
     final body = createBody(
       message: message,
       userId: userId,
       contentType: contentType,
+      location: location,
     );
     http
         .post(
           url,
           body: jsonEncode(body),
-          headers: {HttpHeaders.authorizationHeader: "Bearer $authToken"},
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer $authToken",
+            HttpHeaders.locationHeader: location,
+          },
         )
         .then(
           (response) => chatbotResponseCreator.addResponse(response),
@@ -56,20 +61,24 @@ class ChatbotDataSource {
     required String message,
     required String userId,
     required RequestContentType contentType,
+    required String location,
   }) {
+    final sessionAttributes = {"defaultLocation": location};
     switch (contentType) {
       case RequestContentType.text:
         return {
-          "userId": "$userId",
+          "userId": userId,
           "inputText": message,
+          "sessionAttributes": sessionAttributes,
         };
       case RequestContentType.audio:
         return {
-          "userId": "$userId",
+          "userId": userId,
           "inputAudio": {
             "contentType": "audio/l16; rate=16000; channels=1",
-            "base64Audio": "$message"
+            "base64Audio": message
           },
+          "sessionAttributes": sessionAttributes,
         };
     }
   }

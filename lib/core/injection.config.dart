@@ -13,12 +13,16 @@ import 'package:serverless_chatbot/data/data_sources/chatbot_data_source.dart'
     as _i5;
 import 'package:serverless_chatbot/data/data_sources/google_auth_repository.dart'
     as _i6;
+import 'package:serverless_chatbot/data/data_sources/ip_localization_data_source.dart'
+    as _i7;
 import 'package:serverless_chatbot/data/data_sources/record_data_source.dart'
+    as _i10;
+import 'package:serverless_chatbot/data/repositories/localization_reposiotry.dart'
     as _i8;
 import 'package:serverless_chatbot/presentation/bloc/login/login_cubit.dart'
-    as _i7;
-import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart'
     as _i9;
+import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart'
+    as _i11;
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_cubit.dart'
     as _i4;
 
@@ -46,17 +50,22 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.factory<_i5.ChatbotDataSource>(() => _i5.ChatbotDataSource());
     gh.factory<_i6.GoogleAuthRepository>(() => _i6.GoogleAuthRepository());
-    gh.factory<_i7.LoginCubit>(
-        () => _i7.LoginCubit(gh<_i6.GoogleAuthRepository>()));
-    gh.factory<_i8.RecordDataSource>(() => _i8.RecordDataSource());
-    gh.factoryParam<_i9.ChatPageCubit, dynamic, dynamic>((
+    gh.factory<_i7.IpLocalizationDataSource>(
+        () => _i7.IpLocalizationDataSource());
+    gh.factory<_i8.LocalizationRepository>(
+        () => _i8.LocalizationRepository(gh<_i7.IpLocalizationDataSource>()));
+    gh.factory<_i9.LoginCubit>(
+        () => _i9.LoginCubit(gh<_i6.GoogleAuthRepository>()));
+    gh.factory<_i10.RecordDataSource>(() => _i10.RecordDataSource());
+    gh.factoryParam<_i11.ChatPageCubit, dynamic, dynamic>((
       initialAccount,
       _,
     ) =>
-        _i9.ChatPageCubit(
-          gh<_i8.RecordDataSource>(),
+        _i11.ChatPageCubit(
+          gh<_i10.RecordDataSource>(),
           gh<_i6.GoogleAuthRepository>(),
           gh<_i5.ChatbotDataSource>(),
+          gh<_i8.LocalizationRepository>(),
           initialAccount,
         ));
     return this;
