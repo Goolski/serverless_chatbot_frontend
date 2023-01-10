@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) => state.maybeWhen(
         notSignedIn: () => Scaffold(
-          backgroundColor: Theme.of(context).primaryColorDark,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
