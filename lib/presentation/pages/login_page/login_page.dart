@@ -19,12 +19,16 @@ class LoginPage extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) => state.maybeWhen(
         notSignedIn: () => Scaffold(
+          backgroundColor: Theme.of(context).primaryColorDark,
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Card(child: Logo()),
-              SizedBox(
-                height: 40,
+              const Text(
+                'Chatbot',
+                style: TextStyle(
+                  fontSize: 60,
+                  color: Colors.white,
+                ),
               ),
               Container(
                 alignment: Alignment.center,
@@ -32,12 +36,13 @@ class LoginPage extends StatelessWidget {
                 child: SignInButton(
                   Buttons.Google,
                   onPressed: context.read<LoginCubit>().handleSignIn,
+                  text: 'Sign in or Sign Up with Google',
                 ),
               ),
             ],
           ),
         ),
-        orElse: () => Scaffold(body: SizedBox.shrink()),
+        orElse: () => const Scaffold(body: SizedBox.shrink()),
       ),
     );
   }

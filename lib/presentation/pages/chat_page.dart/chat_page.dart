@@ -8,7 +8,6 @@ import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widge
 import '../../../core/injection.dart';
 import '../../bloc/login/login_cubit.dart';
 import '../../widgets/chat_audio_message_widget/chat_audio_message_cubit.dart';
-import '../../widgets/chat_input_widget/chat_input_cubit.dart';
 import '../../widgets/chat_input_widget/chat_input_widget.dart';
 import 'chat_page_state.dart';
 
@@ -29,17 +28,24 @@ class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        ElevatedButton(
+      appBar: AppBar(
+        title: const Text('Chatbot'),
+        actions: [
+          ElevatedButton(
             onPressed: context.read<LoginCubit>().handleSignOut,
-            child: const Icon(Icons.logout))
-      ]),
+            child: const Icon(Icons.logout),
+          )
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Flexible(
               child: BlocBuilder<ChatPageCubit, ChatPageState>(
                 builder: (context, state) => Chat(
+                  theme: DefaultChatTheme(
+                    primaryColor: Theme.of(context).primaryColor,
+                  ),
                   messages: state.messages,
                   onSendPressed: (_) {},
                   user: User(
