@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as chatTypes;
+import 'package:serverless_chatbot/data/repositories/localization_reposiotry.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../data/data_sources/chatbot_data_source.dart';
@@ -18,6 +19,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
   final RecordDataSource _recording;
   final GoogleAuthRepository _googleAuthRepository;
   final ChatbotDataSource _chatbotBackend;
+  final LocalizationRepository _localizationRepository;
   final Uuid _uuid = const Uuid();
 
   late final StreamSubscription<Message> _responseStreamSubscription;
@@ -28,6 +30,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
     this._recording,
     this._googleAuthRepository,
     this._chatbotBackend,
+    this._localizationRepository,
     @factoryParam initialAccount,
   ) : super(
           ChatPageState.initial(
@@ -64,7 +67,8 @@ class ChatPageCubit extends Cubit<ChatPageState> {
   void onSendRecording() {
     _recording.isRecording.then((isRecording) async {
       if (!isRecording) {
-        final record = (await _recording.getBase64Recording());
+        final record = await _recording.getBase64Recording();
+        final location = await _localizationRepository.getLocation();
         state.user.authentication.then((auth) {
           if (auth.accessToken != null && record != null) {
             _chatbotBackend.sendRequest(
@@ -72,6 +76,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
               authToken: auth.accessToken!,
               userId: state.user.id,
               contentType: RequestContentType.audio,
+              location: location,
             );
           }
         });
@@ -87,7 +92,8 @@ class ChatPageCubit extends Cubit<ChatPageState> {
     _recording.stopRecording();
   }
 
-  void onSendText({required String message}) {
+  void onSendText({required String message}) async {
+    final location = await _localizationRepository.getLocation();
     state.user.authentication.then(
       (auth) {
         if (auth.accessToken != null) {
@@ -96,6 +102,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
             authToken: auth.accessToken!,
             userId: state.user.id,
             contentType: RequestContentType.text,
+            location: location,
           );
           addMessage(
             message: createTextMessage(
