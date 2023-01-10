@@ -39,3 +39,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: SquareSlabserif
+      fonts:
+      - asset: assets/fonts/Square-Slabserif/0410EU27.ttf
+        weight: 100
+      - asset: assets/fonts/Square-Slabserif/0411EU27.ttf
+        weight: 500
+      - asset: assets/fonts/Square-Slabserif/0412EU27.ttf
+        weight: 900

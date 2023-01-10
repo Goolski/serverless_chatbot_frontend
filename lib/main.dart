@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serverless_chatbot/core/injection.dart';
+import 'package:serverless_chatbot/core/themes/theme.dart';
 import 'package:serverless_chatbot/presentation/bloc/login/login_cubit.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
@@ -33,6 +34,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: mainTheme,
       home: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
           return state.maybeWhen(
