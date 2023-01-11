@@ -15,13 +15,10 @@ class ChatAudioMessageCubit extends Cubit<ChatAudioMessageState> {
           ),
         );
 
-  void play() {
+  Future<void> play() async {
     emit(ChatAudioMessageState.playing(audioBytes: state.audioBytes));
-    _audioDataSource.playAudio(audioBytes: state.audioBytes).then(
-          (_) => emit(
-            ChatAudioMessageState.initial(audioBytes: state.audioBytes),
-          ),
-        );
+    await _audioDataSource.playAudio(audioBytes: state.audioBytes);
+    emit(ChatAudioMessageState.initial(audioBytes: state.audioBytes));
   }
 
   void stop() {

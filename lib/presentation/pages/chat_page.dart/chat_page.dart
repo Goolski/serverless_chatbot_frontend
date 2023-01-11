@@ -44,7 +44,11 @@ class ChatPage extends StatelessWidget {
               child: BlocBuilder<ChatPageCubit, ChatPageState>(
                 builder: (context, state) => Chat(
                   theme: DefaultChatTheme(
-                    primaryColor: Theme.of(context).primaryColor,
+                    primaryColor: Theme.of(context).colorScheme.primary,
+                    sentMessageBodyTextStyle: TextStyle(
+                      fontSize: 18.0,
+                      color: Colors.white,
+                    ),
                   ),
                   messages: state.messages,
                   onSendPressed: (_) {},
@@ -65,7 +69,9 @@ class ChatPage extends StatelessWidget {
                     create: (_) => getIt<ChatAudioMessageCubit>(
                         param1: p0.metadata!['audio'])
                       ..play(),
-                    child: const ChatAudioMessageWidget(),
+                    child: ChatAudioMessageWidget(
+                      message: p0.metadata!['message'],
+                    ),
                   ),
                 ),
               ),

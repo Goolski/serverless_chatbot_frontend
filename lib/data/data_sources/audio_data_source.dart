@@ -9,7 +9,7 @@ class AudioDataSource {
     final intAudio = List<int>.from(audioBytes);
     final source = MpegSource(intAudio);
     await _audioPlayer.setAudioSource(source);
-    _audioPlayer.play();
+    await _audioPlayer.play();
   }
 
   Future<void> stopAudio() async {

@@ -125,6 +125,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
     }
     if (newMessage is AudioMessage) {
       final audioMessage = createAudioMessage(
+        text: newMessage.message,
         audio: newMessage.audioMessage,
         author: newMessage.author == MessageAuthor.bot
             ? chatBotUser
@@ -132,17 +133,23 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       );
       addMessage(message: audioMessage);
     }
-    final message = createTextMessage(
-      message: newMessage.message,
-      author: chatBotUser,
-    );
-    addMessage(message: message);
+    // final message = createTextMessage(
+    //   message: newMessage.message,
+    //   author: chatBotUser,
+    // );
+    // addMessage(message: message);
   }
 
-  chatTypes.CustomMessage createAudioMessage(
-      {required List<int> audio, required chatTypes.User author}) {
-    final partialMessage =
-        chatTypes.PartialCustom(metadata: {'type': 'audio', 'audio': audio});
+  chatTypes.CustomMessage createAudioMessage({
+    required String text,
+    required List<int> audio,
+    required chatTypes.User author,
+  }) {
+    final partialMessage = chatTypes.PartialCustom(metadata: {
+      'type': 'audio',
+      'message': text,
+      'audio': audio,
+    });
     final message = chatTypes.CustomMessage.fromPartial(
       partialCustom: partialMessage,
       author: author,

@@ -5,29 +5,32 @@ import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widge
 import 'chat_audio_message_state.dart';
 
 class ChatAudioMessageWidget extends StatelessWidget {
-  const ChatAudioMessageWidget({super.key});
+  final String message;
+  const ChatAudioMessageWidget({
+    required this.message,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ChatAudioMessageCubit, ChatAudioMessageState>(
-      builder: (context, state) => state.when(
-        initial: (audioBytes) => TextButton(
-          onPressed: context.read<ChatAudioMessageCubit>().play,
-          style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-              Colors.transparent,
+      builder: (context, state) => Padding(
+        padding: EdgeInsets.only(left: 8.0),
+        child: state.when(
+          initial: (audioBytes) => TextButton(
+            onPressed: context.read<ChatAudioMessageCubit>().play,
+            child: Text(
+              message,
+              style: TextStyle(fontSize: 18.0),
             ),
           ),
-          child: const Icon(Icons.play_arrow),
-        ),
-        playing: (audioBytes) => TextButton(
-          onPressed: context.read<ChatAudioMessageCubit>().stop,
-          style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-              Colors.transparent,
+          playing: (audioBytes) => TextButton(
+            onPressed: context.read<ChatAudioMessageCubit>().stop,
+            child: Text(
+              message,
+              style: TextStyle(fontSize: 18.0),
             ),
           ),
-          child: const Icon(Icons.stop),
         ),
       ),
     );
