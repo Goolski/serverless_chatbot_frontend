@@ -71,9 +71,9 @@ class ChatPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // ChatAudioMessageWidget(
-                        //   message: p0.metadata!['message'],
-                        // ),
+                        ChatAudioMessageWidget(
+                          message: p0.metadata!['message'],
+                        ),
                         WeatherWidget(
                           date: DateTime.now(),
                           pressure: 1024,
