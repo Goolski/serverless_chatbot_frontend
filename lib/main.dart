@@ -34,7 +34,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: mainTheme,
+      theme: secondaryTheme,
       home: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
           return state.maybeWhen(

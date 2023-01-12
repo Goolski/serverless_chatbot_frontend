@@ -4,6 +4,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_widget.dart';
+import 'package:serverless_chatbot/presentation/widgets/weather_widget.dart';
 
 import '../../../core/injection.dart';
 import '../../bloc/login/login_cubit.dart';
@@ -45,10 +46,6 @@ class ChatPage extends StatelessWidget {
                 builder: (context, state) => Chat(
                   theme: DefaultChatTheme(
                     primaryColor: Theme.of(context).colorScheme.primary,
-                    sentMessageBodyTextStyle: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                    ),
                   ),
                   messages: state.messages,
                   onSendPressed: (_) {},
@@ -69,8 +66,22 @@ class ChatPage extends StatelessWidget {
                     create: (_) => getIt<ChatAudioMessageCubit>(
                         param1: p0.metadata!['audio'])
                       ..play(),
-                    child: ChatAudioMessageWidget(
-                      message: p0.metadata!['message'],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ChatAudioMessageWidget(
+                        //   message: p0.metadata!['message'],
+                        // ),
+                        WeatherWidget(
+                          date: DateTime.now(),
+                          pressure: 1024,
+                          temperature: 24,
+                          weather: 'Cloudy',
+                          city: 'Poznań',
+                        ),
+                      ],
                     ),
                   ),
                 ),
