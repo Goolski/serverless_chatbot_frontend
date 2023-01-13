@@ -4,6 +4,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_widget.dart';
+import 'package:serverless_chatbot/presentation/widgets/task_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/weather_widget.dart';
 
 import '../../../core/injection.dart';
@@ -71,16 +72,22 @@ class ChatPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ChatAudioMessageWidget(
-                          message: p0.metadata!['message'],
-                        ),
-                        WeatherWidget(
-                          date: DateTime.now(),
-                          pressure: 1024,
-                          temperature: 24,
-                          weather: 'Cloudy',
-                          city: 'Poznań',
-                        ),
+                        // ChatAudioMessageWidget(
+                        //   message: p0.metadata!['message'],
+                        // ),
+                        // WeatherWidget(
+                        //   date: DateTime.now(),
+                        //   pressure: 1024,
+                        //   temperature: 24,
+                        //   weather: 'Cloudy',
+                        //   city: 'Poznań',
+                        // ),
+                        TaskWidget(
+                          title: 'This is example task',
+                          // description: 'This is description',
+                          // dueDate: DateTime.parse("2022-02-10"),
+                          // dueDate: DateTime.now(),
+                        )
                       ],
                     ),
                   ),
