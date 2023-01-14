@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TaskWidget extends StatelessWidget {
   final String title;
@@ -53,7 +54,7 @@ class TaskWidget extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(2),
                 child: Text(
-                  '${dueDate!.year}.${dueDate!.month}.${dueDate!.day}${dueDate!.hour != 0 ? ' ${dueDate!.hour}:${dueDate!.minute}' : ''}',
+                  DateFormat('y.M.d H:m').format(dueDate!),
                   style: Theme.of(context).textTheme.bodySmall!.apply(
                         color: Colors.white70,
                       ),

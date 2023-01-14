@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WeatherWidget extends StatelessWidget {
   final DateTime date;
@@ -31,7 +32,7 @@ class WeatherWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${date.day}-${date.month}-${date.year}",
+                DateFormat('y.M.d').format(date),
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!

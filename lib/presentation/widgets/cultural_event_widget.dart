@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CulturalEventWidget extends StatelessWidget {
   final String title;
-  final DateTime startDate;
-  final DateTime endDate;
-  final String link;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final String? link;
 
   const CulturalEventWidget({
     required this.title,
@@ -17,10 +18,6 @@ class CulturalEventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startDateString =
-        '${startDate!.year}.${startDate!.month}.${startDate!.day}${startDate!.hour != 0 ? ' ${startDate!.hour}:${startDate!.minute < 10 ? '0${startDate!.minute}' : '${startDate!.minute}'}' : ''}';
-    final endDateString =
-        '${endDate!.year}.${endDate!.month}.${endDate!.day}${endDate!.hour != 0 ? ' ${endDate!.hour}:${endDate!.minute < 10 ? '0${endDate!.minute}' : '${endDate!.minute}'}' : ''}';
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
@@ -40,21 +37,25 @@ class CulturalEventWidget extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
             ),
-            Text(
-              startDateString,
-              style: Theme.of(context).textTheme.titleLarge!.apply(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-            ),
-            Text(
-              endDateString,
-              style: Theme.of(context).textTheme.titleLarge!.apply(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-            ),
+            if (startDate != null) ...[
+              Text(
+                DateFormat('y.M.d H:m').format(startDate!),
+                style: Theme.of(context).textTheme.titleLarge!.apply(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+              ),
+            ],
+            if (endDate != null) ...[
+              Text(
+                DateFormat('y.M.d H:m').format(endDate!),
+                style: Theme.of(context).textTheme.titleLarge!.apply(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+              ),
+            ],
             if (link != null) ...[
               OutlinedButton(
-                onPressed: () => _launchUrl(link),
+                onPressed: () => _launchUrl(link!),
                 child: Text('More info'),
                 style: ButtonStyle(
                   foregroundColor:

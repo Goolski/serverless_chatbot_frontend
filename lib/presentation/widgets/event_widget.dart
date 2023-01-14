@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 
 class EventWidget extends StatelessWidget {
   final String title;
@@ -15,10 +16,6 @@ class EventWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startDateString =
-        '${startDate!.year}.${startDate!.month}.${startDate!.day}${startDate!.hour != 0 ? ' ${startDate!.hour}:${startDate!.minute < 10 ? '0${startDate!.minute}' : '${startDate!.minute}'}' : ''}';
-    final endDateString =
-        '${endDate!.year}.${endDate!.month}.${endDate!.day}${endDate!.hour != 0 ? ' ${endDate!.hour}:${endDate!.minute < 10 ? '0${endDate!.minute}' : '${endDate!.minute}'}' : ''}';
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
@@ -38,12 +35,14 @@ class EventWidget extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
             ),
-            Text(
-              '$startDateString - $endDateString',
-              style: Theme.of(context).textTheme.titleMedium!.apply(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-            ),
+            if (startDate != null && endDate != null) ...[
+              Text(
+                '${DateFormat('y.M.d H:m').format(startDate!)} - ${DateFormat('y.M.d H:m').format(startDate!)}',
+                style: Theme.of(context).textTheme.titleMedium!.apply(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+              ),
+            ]
           ],
         ),
       ),
