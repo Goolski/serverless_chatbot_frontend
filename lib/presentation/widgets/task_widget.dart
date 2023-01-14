@@ -54,7 +54,7 @@ class TaskWidget extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(2),
                 child: Text(
-                  DateFormat('y.M.d H:m').format(dueDate!),
+                  DateFormat('d.M.y H:m').format(dueDate!),
                   style: Theme.of(context).textTheme.bodySmall!.apply(
                         color: Colors.white70,
                       ),

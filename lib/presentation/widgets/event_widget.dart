@@ -37,7 +37,7 @@ class EventWidget extends StatelessWidget {
             ),
             if (startDate != null && endDate != null) ...[
               Text(
-                '${DateFormat('y.M.d H:m').format(startDate!)} - ${DateFormat('y.M.d H:m').format(startDate!)}',
+                '${DateFormat('d.M.y H:m').format(startDate!)} - ${DateFormat('d.M.y H:m').format(startDate!)}',
                 style: Theme.of(context).textTheme.titleMedium!.apply(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),

@@ -77,24 +77,24 @@ class ChatPage extends StatelessWidget {
                         // ChatAudioMessageWidget(
                         //   message: p0.metadata!['message'],
                         // ),
-                        // WeatherWidget(
-                        //   date: DateTime.now(),
-                        //   pressure: 1024,
-                        //   temperature: 24,
-                        //   weather: 'Cloudy',
-                        //   city: 'Poznań',
-                        // ),
-                        // TaskWidget(
-                        //   title: 'This is example task',
-                        //   description: 'This is description',
-                        //   // dueDate: DateTime.parse("2022-02-10"),
-                        //   dueDate: DateTime.now(),
-                        // )
-                        // EventWidget(
-                        //   title: 'This is the title',
-                        //   startDate: DateTime.now(),
-                        //   endDate: DateTime.now().add(const Duration(days: 1)),
-                        // ),
+                        WeatherWidget(
+                          date: DateTime.now(),
+                          pressure: 1024,
+                          temperature: 24,
+                          weather: 'Cloudy',
+                          city: 'Poznań',
+                        ),
+                        TaskWidget(
+                          title: 'This is example task',
+                          description: 'This is description',
+                          // dueDate: DateTime.parse("2022-02-10"),
+                          dueDate: DateTime.now(),
+                        ),
+                        EventWidget(
+                          title: 'This is the title',
+                          startDate: DateTime.now(),
+                          endDate: DateTime.now().add(const Duration(days: 1)),
+                        ),
                         CulturalEventWidget(
                           title: 'Thing',
                           startDate: DateTime.now(),

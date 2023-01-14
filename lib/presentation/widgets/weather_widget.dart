@@ -32,14 +32,14 @@ class WeatherWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateFormat('y.M.d').format(date),
+                DateFormat('d.M.y').format(date),
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
                     .copyWith(color: textColor),
               ),
               Text(
-                '$pressure hPa',
+                '${pressure.toInt()} hPa',
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!
