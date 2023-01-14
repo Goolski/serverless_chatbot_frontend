@@ -4,6 +4,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_widget.dart';
+import 'package:serverless_chatbot/presentation/widgets/cultural_event_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/event_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/task_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/weather_widget.dart';
@@ -89,11 +90,18 @@ class ChatPage extends StatelessWidget {
                         //   // dueDate: DateTime.parse("2022-02-10"),
                         //   dueDate: DateTime.now(),
                         // )
-                        EventWidget(
-                          title: 'This is the title',
+                        // EventWidget(
+                        //   title: 'This is the title',
+                        //   startDate: DateTime.now(),
+                        //   endDate: DateTime.now().add(const Duration(days: 1)),
+                        // ),
+                        CulturalEventWidget(
+                          title: 'Thing',
                           startDate: DateTime.now(),
                           endDate: DateTime.now().add(const Duration(days: 1)),
-                        ),
+                          link:
+                              'https://kultura.poznan.pl/mim/kultura/events/2023-01-08/koncert-noworoczny-teatru-wielkiego,137679.html',
+                        )
                       ],
                     ),
                   ),
