@@ -51,7 +51,7 @@ class WeatherWidget extends StatelessWidget {
           Column(
             children: [
               Icon(
-                Icons.cloud,
+                getWeatherIcon(weather),
                 size: 64,
                 color: textColor,
               ),
@@ -67,5 +67,27 @@ class WeatherWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  IconData getWeatherIcon(String weather) {
+    print('weather: $weather');
+    switch (weather) {
+      case 'Clear':
+        return Icons.sunny;
+      case 'Clouds':
+        return Icons.cloud;
+      case 'Snow':
+        return Icons.cloudy_snowing;
+      case 'Rain':
+        return Icons.thunderstorm;
+      case 'Thunderstorm':
+        return Icons.thunderstorm;
+      case 'Drizzle':
+        return Icons.thunderstorm;
+      case 'Haze':
+        return Icons.dehaze;
+      default:
+        return Icons.cloud;
+    }
   }
 }
