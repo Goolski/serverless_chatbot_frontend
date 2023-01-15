@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:serverless_chatbot/data/models/event_model/event_model.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/cultural_event_widget.dart';
@@ -10,6 +11,8 @@ import 'package:serverless_chatbot/presentation/widgets/task_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/weather_widget.dart';
 
 import '../../../core/injection.dart';
+import '../../../data/models/task_model/task_model.dart';
+import '../../../data/models/weather_model/weather_model.dart';
 import '../../bloc/login/login_cubit.dart';
 import '../../widgets/chat_audio_message_widget/chat_audio_message_cubit.dart';
 import '../../widgets/chat_input_widget/chat_input_widget.dart';
@@ -65,46 +68,7 @@ class ChatPage extends StatelessWidget {
                     onSendRecordPressed: () => sendRecording(context),
                   ),
                   customMessageBuilder: (p0, {messageWidth = 0}) =>
-                      BlocProvider(
-                    create: (_) => getIt<ChatAudioMessageCubit>(
-                        param1: p0.metadata!['audio'])
-                      ..play(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // ChatAudioMessageWidget(
-                        //   message: p0.metadata!['message'],
-                        // ),
-                        WeatherWidget(
-                          date: DateTime.now(),
-                          pressure: 1024,
-                          temperature: 24,
-                          weather: 'Cloudy',
-                          city: 'Poznań',
-                        ),
-                        TaskWidget(
-                          title: 'This is example task',
-                          description: 'This is description',
-                          // dueDate: DateTime.parse("2022-02-10"),
-                          dueDate: DateTime.now(),
-                        ),
-                        EventWidget(
-                          title: 'This is the title',
-                          startDate: DateTime.now(),
-                          endDate: DateTime.now().add(const Duration(days: 1)),
-                        ),
-                        CulturalEventWidget(
-                          title: 'Thing',
-                          startDate: DateTime.now(),
-                          endDate: DateTime.now().add(const Duration(days: 1)),
-                          link:
-                              'https://kultura.poznan.pl/mim/kultura/events/2023-01-08/koncert-noworoczny-teatru-wielkiego,137679.html',
-                        )
-                      ],
-                    ),
-                  ),
+                      CustomMessageWidget(p0: p0),
                 ),
               ),
             ),
@@ -128,5 +92,52 @@ class ChatPage extends StatelessWidget {
 
   void _handleSendPressed(BuildContext context, String message) {
     context.read<ChatPageCubit>().onSendText(message: message);
+  }
+}
+
+class CustomMessageWidget extends StatelessWidget {
+  final CustomMessage p0;
+  const CustomMessageWidget({
+    required this.p0,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    switch (p0.metadata!['type']) {
+      case 'audio':
+        return BlocProvider(
+          create: (_) =>
+              getIt<ChatAudioMessageCubit>(param1: p0.metadata!['audio'])
+                ..play(),
+          child: ChatAudioMessageWidget(
+            message: p0.metadata!['message'],
+          ),
+        );
+      case 'weather':
+        final weather = p0.metadata!['message'] as WeatherModel;
+        return WeatherWidget(
+          pressure: weather.pressure.toDouble(),
+          temperature: weather.temperature.toDouble(),
+          weather: weather.weather,
+          city: weather.city,
+        );
+      case 'event':
+        final event = p0.metadata!['message'] as EventModel;
+        return EventWidget(
+          title: event.name,
+          startDate: event.startDate.date,
+          endDate: event.endDate.date,
+        );
+      case 'task':
+        final task = p0.metadata!['message'] as TaskModel;
+        return TaskWidget(
+          title: task.title,
+          description: task.description,
+          dueDate: task.deadline,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }

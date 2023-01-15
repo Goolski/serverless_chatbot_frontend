@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -10,6 +11,10 @@ import 'package:uuid/uuid.dart';
 import '../../../data/data_sources/chatbot_data_source.dart';
 import '../../../data/data_sources/google_auth_repository.dart';
 import '../../../data/data_sources/record_data_source.dart';
+import '../../../data/models/custom_response_model/custom_response_model.dart';
+import '../../../data/models/event_model/event_model.dart';
+import '../../../data/models/task_model/task_model.dart';
+import '../../../data/models/weather_model/weather_model.dart';
 import 'chat_page_state.dart';
 
 const chatBotUser = chatTypes.User(id: 'ChatBot', firstName: 'ChatBot');
@@ -123,7 +128,13 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       );
       addMessage(message: message);
     }
-    if (newMessage is AudioMessage) {
+    if (newMessage.author == MessageAuthor.bot &&
+        newMessage.message.contains('{')) {
+      final message = createCustomMessage(
+        message: newMessage.message,
+        author: chatBotUser,
+      );
+    } else if (newMessage is AudioMessage) {
       final audioMessage = createAudioMessage(
         text: newMessage.message,
         audio: newMessage.audioMessage,
@@ -133,11 +144,118 @@ class ChatPageCubit extends Cubit<ChatPageState> {
       );
       addMessage(message: audioMessage);
     }
-    // final message = createTextMessage(
-    //   message: newMessage.message,
-    //   author: chatBotUser,
-    // );
-    // addMessage(message: message);
+  }
+
+  //TODO: Ask everyone for header and response and get rid of null safety
+  createCustomMessage({
+    required String message,
+    required chatTypes.User author,
+  }) {
+    final response = CustomResponseModel.fromJson(
+      jsonDecode(message),
+    );
+    switch (response.type) {
+      case 'weather':
+        final header = createTextMessage(
+          message: response.header!,
+          author: author,
+        );
+        addMessage(message: header);
+        response.objects.forEach((element) {
+          final weather = createWeatherMessage(
+            weather: WeatherModel.fromJson(element),
+            author: author,
+          );
+          addMessage(message: weather);
+        });
+        break;
+      case 'event':
+        final header = createTextMessage(
+          message: 'Events:',
+          author: author,
+        );
+        addMessage(message: header);
+        response.objects.forEach((element) {
+          final event = createEventMessage(
+            event: EventModel.fromJson(element),
+            author: author,
+          );
+          addMessage(message: event);
+        });
+        break;
+      case 'task':
+        final header = createTextMessage(
+          message: response.header!,
+          author: author,
+        );
+        addMessage(message: header);
+        response.objects.forEach((element) {
+          final task = createTaskMessage(
+            task: TaskModel.fromJson(element),
+            author: author,
+          );
+          addMessage(message: task);
+        });
+        break;
+      case 'culturalEvent':
+        final culturalEvent = createTextMessage(
+          message: response.response!,
+          author: author,
+        );
+        addMessage(message: culturalEvent);
+        break;
+    }
+  }
+
+  chatTypes.CustomMessage createWeatherMessage({
+    required WeatherModel weather,
+    required chatTypes.User author,
+  }) {
+    final partialMessage = chatTypes.PartialCustom(metadata: {
+      'type': 'weather',
+      'message': weather,
+    });
+    final message = chatTypes.CustomMessage.fromPartial(
+      partialCustom: partialMessage,
+      author: author,
+      id: _uuid.v4(),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
+    return message;
+  }
+
+  chatTypes.CustomMessage createEventMessage({
+    required EventModel event,
+    required chatTypes.User author,
+  }) {
+    final partialMessage = chatTypes.PartialCustom(metadata: {
+      'type': 'event',
+      'message': event,
+    });
+    final message = chatTypes.CustomMessage.fromPartial(
+      partialCustom: partialMessage,
+      author: author,
+      id: _uuid.v4(),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
+    return message;
+  }
+
+  chatTypes.CustomMessage createTaskMessage({
+    required TaskModel task,
+    required chatTypes.User author,
+  }) {
+    final partialMessage = chatTypes.PartialCustom(metadata: {
+      'type': 'task',
+      'message': task,
+    });
+    final message = chatTypes.CustomMessage.fromPartial(
+      partialCustom: partialMessage,
+      author: author,
+      id: _uuid.v4(),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
+    return message;
   }
 
   chatTypes.CustomMessage createAudioMessage({

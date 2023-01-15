@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class WeatherWidget extends StatelessWidget {
-  final DateTime date;
   final double pressure;
   final double temperature;
   final String weather;
   final String city;
   const WeatherWidget({
-    required this.date,
     required this.pressure,
     required this.temperature,
     required this.weather,
@@ -31,13 +29,6 @@ class WeatherWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                DateFormat('d.M.y').format(date),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: textColor),
-              ),
               Text(
                 '${pressure.toInt()} hPa',
                 style: Theme.of(context)
