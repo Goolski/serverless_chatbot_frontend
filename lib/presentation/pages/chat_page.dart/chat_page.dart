@@ -5,7 +5,6 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:serverless_chatbot/data/models/event_model/event_model.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_widget.dart';
-import 'package:serverless_chatbot/presentation/widgets/cultural_event_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/event_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/task_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/weather_widget.dart';

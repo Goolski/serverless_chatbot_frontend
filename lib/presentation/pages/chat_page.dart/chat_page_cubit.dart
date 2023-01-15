@@ -70,6 +70,7 @@ class ChatPageCubit extends Cubit<ChatPageState> {
   }
 
   void onSendRecording() {
+    _recording.stopRecording();
     _recording.isRecording.then((isRecording) async {
       if (!isRecording) {
         final record = await _recording.getBase64Recording();
