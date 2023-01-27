@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:serverless_chatbot/data/models/cultural_event_model/cultural_event_model.dart';
 import 'package:serverless_chatbot/data/models/event_model/event_model.dart';
 import 'package:serverless_chatbot/presentation/pages/chat_page.dart/chat_page_cubit.dart';
 import 'package:serverless_chatbot/presentation/widgets/chat_audio_message_widget/chat_audio_message_widget.dart';
+import 'package:serverless_chatbot/presentation/widgets/cultural_event_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/event_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/task_widget.dart';
 import 'package:serverless_chatbot/presentation/widgets/weather_widget.dart';
@@ -134,6 +136,14 @@ class CustomMessageWidget extends StatelessWidget {
           title: task.title,
           description: task.description,
           dueDate: task.deadline,
+        );
+      case 'culturalEvent':
+        final culturalEvent = p0.metadata!['message'] as CulturalEventModel;
+        return CulturalEventWidget(
+          title: culturalEvent.name,
+          startDate: culturalEvent.startDate,
+          endDate: culturalEvent.endDate,
+          link: culturalEvent.link,
         );
       default:
         return const SizedBox.shrink();

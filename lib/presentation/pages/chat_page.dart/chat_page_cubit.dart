@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as chatTypes;
+import 'package:serverless_chatbot/data/models/cultural_event_model/cultural_event_model.dart';
 import 'package:serverless_chatbot/data/repositories/localization_reposiotry.dart';
 import 'package:uuid/uuid.dart';
 
@@ -199,13 +200,37 @@ class ChatPageCubit extends Cubit<ChatPageState> {
         });
         break;
       case 'culturalEvent':
-        final culturalEvent = createTextMessage(
-          message: response.response!,
+        final header = createTextMessage(
+          message: response.header!,
           author: author,
         );
-        addMessage(message: culturalEvent);
+        addMessage(message: header);
+        response.objects.forEach((element) {
+          final culturalEvent = createCulturalEventMessage(
+            culturalEvent: CulturalEventModel.fromJson(element),
+            author: author,
+          );
+          addMessage(message: culturalEvent);
+        });
         break;
     }
+  }
+
+  chatTypes.CustomMessage createCulturalEventMessage({
+    required CulturalEventModel culturalEvent,
+    required chatTypes.User author,
+  }) {
+    final partialMessage = chatTypes.PartialCustom(metadata: {
+      'type': 'culturalEvent',
+      'message': culturalEvent,
+    });
+    final message = chatTypes.CustomMessage.fromPartial(
+      partialCustom: partialMessage,
+      author: author,
+      id: _uuid.v4(),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
+    return message;
   }
 
   chatTypes.CustomMessage createWeatherMessage({

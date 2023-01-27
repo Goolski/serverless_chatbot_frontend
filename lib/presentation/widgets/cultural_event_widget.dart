@@ -36,10 +36,11 @@ class CulturalEventWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge!.apply(
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
+              textAlign: TextAlign.center,
             ),
             if (startDate != null) ...[
               Text(
-                DateFormat('d.M.y H:m').format(startDate!),
+                DateFormat('d.M.y H:mm').format(startDate!),
                 style: Theme.of(context).textTheme.titleLarge!.apply(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
@@ -47,7 +48,7 @@ class CulturalEventWidget extends StatelessWidget {
             ],
             if (endDate != null) ...[
               Text(
-                DateFormat('d.M.y H:m').format(endDate!),
+                DateFormat('d.M.y H:mm').format(endDate!),
                 style: Theme.of(context).textTheme.titleLarge!.apply(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
